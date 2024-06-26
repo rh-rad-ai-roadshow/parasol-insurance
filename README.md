@@ -13,14 +13,11 @@ A [Quarkus](https://quarkus.io) + [React](https://react.dev/) AI app for managin
 
 ## To Configure on InstructLab instance of Red Hat Demo Platform
 
-
-You can execute [this](https://gist.githubusercontent.com/jameslabocki/748e191006d0e311dec21c72e95570d1/raw/3c40273c962c3ee598a13dd853b831ac9df884ff/gistfile1.txt) to install the parasol app on the InstructLab instance for Red Hat Demo Platform.
-
-
+You can execute [this]([https://gist.githubusercontent.com/jameslabocki/748e191006d0e311dec21c72e95570d1/raw/3c40273c962c3ee598a13dd853b831ac9df884ff/gistfile1.txt](https://raw.githubusercontent.com/jameslabocki/ilabdemo/main/install.sh)) to install the parasol app on the InstructLab instance for Red Hat Demo Platform.
 
 ## Configuration
 
-You can change the coordinates (host/port and other stuff) for the LLM and backend in `app/backend/src/main/resources/application.properties`.
+You can change the coordinates (host/port and other stuff) for the LLM and backend in [`app/src/main/resources/application.properties`](app/src/main/resources/application.properties).
 
 ## Running
 

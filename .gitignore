@@ -51,3 +51,4 @@ lab-materials/04/datasets/*
 lab-materials/04/runs/*
 
 **/target/**
+/.quarkus/cli/plugins/quarkus-cli-catalog.json

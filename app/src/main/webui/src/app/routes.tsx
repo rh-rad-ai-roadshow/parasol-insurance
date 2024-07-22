@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Redirect, Route, RouteComponentProps, Switch, useLocation } from 'react-router-dom';
 import { ClaimDetail } from './components/ClaimDetail/ClaimDetail';
 import { ClaimsList } from './components/ClaimsList/ClaimsList';
+import { EmailGenerate } from './components/EmailGenerate/EmailGenerate';
 import { Empty } from './components/Empty/Empty';
 
 
@@ -84,6 +85,13 @@ const routes: AppRouteConfig[] = [
     label: 'Reports',
     path: '#',
     title: 'Reports'
+  },
+  {
+    component: EmailGenerate,
+    exact: true,
+    label: 'Email Generate',
+    path: '/EmailGenerate',
+    title: 'Email Generate'
   },
   {
     component: Empty,

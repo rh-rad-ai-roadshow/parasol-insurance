@@ -61,9 +61,9 @@ const EmailGenerate: React.FunctionComponent = () => {
         <Button type="submit">Submit</Button>
         {loading && <Spinner style={{justifyContent: 'center', alignItems: 'center'}} size="lg" />}
         {response && (
-          <div style={{ marginTop: '20px', color: 'blue', textAlign: 'left', width: '100%' }}>
-            <div style={{ fontWeight: 'bold', fontFamily: 'Arial' }}>Subject: {response.subject}</div>
-            <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word', fontFamily: 'monospace', border: '1px solid black', padding: '10px' }}>
+          <div id="email-response" style={{ marginTop: '20px', color: 'blue', textAlign: 'left', width: '100%' }}>
+            <div id="email-response-subject" style={{ fontWeight: 'bold', fontFamily: 'Arial' }}>Subject: {response.subject}</div>
+            <pre id="email-response-message" style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word', fontFamily: 'monospace', border: '1px solid black', padding: '10px' }}>
               {response.message}
             </pre>
           </div>

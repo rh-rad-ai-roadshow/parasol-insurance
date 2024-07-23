@@ -1,6 +1,3 @@
 package org.parasol.model;
 
-public class EmailResponse {
-    public String subject;
-    public String message;
-}
+public record EmailResponse(String subject, String message) { }

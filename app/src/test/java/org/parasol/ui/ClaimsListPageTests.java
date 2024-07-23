@@ -4,36 +4,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import jakarta.ws.rs.core.Response.Status;
-
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
 
-import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Response;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.microsoft.playwright.options.AriaRole;
-import com.microsoft.playwright.options.LoadState;
-import io.quarkiverse.playwright.InjectPlaywright;
 import io.quarkiverse.playwright.WithPlaywright;
 import io.quarkiverse.quinoa.testing.QuinoaTestProfiles;
 
 @QuarkusTest
 @TestProfile(QuinoaTestProfiles.Enable.class)
 @WithPlaywright
-public class ClaimsListPageTests {
+public class ClaimsListPageTests extends PlaywrightTests {
 	private static final int NB_CLAIMS = 6;
-
-	@InjectPlaywright
-	BrowserContext context;
-
-	@ConfigProperty(name = "quarkus.http.test-port")
-  int quarkusPort;
 
 	@Test
 	void pageLoads() {
@@ -130,16 +117,6 @@ public class ClaimsListPageTests {
 	}
 
 	private Page loadPage() {
-		var page = this.context.newPage();
-		var response = page.navigate("http://localhost:%d/ClaimsList".formatted(this.quarkusPort));
-
-		assertThat(response)
-			.isNotNull()
-			.extracting(Response::status)
-			.isEqualTo(Status.OK.getStatusCode());
-
-		page.waitForLoadState(LoadState.NETWORKIDLE);
-
-		return page;
+		return loadPage("ClaimsList");
 	}
 }

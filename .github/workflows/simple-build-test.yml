@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - email-feature-branch
     paths-ignore:
       - '**/*.md'
       - '.github/dependabot.yml'
@@ -11,6 +12,7 @@ on:
   pull_request:
     branches:
       - main
+      - email-feature-branch
     paths-ignore:
       - '**/*.md'
       - '.github/dependabot.yml'
@@ -28,7 +30,6 @@ jobs:
       fail-fast: false
       matrix:
         java:
-          - '17'
           - '21'
     services:
       ollama:

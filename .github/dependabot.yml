@@ -9,3 +9,15 @@ updates:
     directory: /
     schedule:
       interval: daily
+
+  - package-ecosystem: maven
+    directory: app
+    schedule:
+      interval: daily
+    target-branch: email-feature-branch
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+    target-branch: email-feature-branch

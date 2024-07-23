@@ -6,35 +6,22 @@ import static org.awaitility.Awaitility.await;
 import java.time.Duration;
 import java.util.Optional;
 
-import jakarta.ws.rs.core.Response.Status;
-
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.Test;
 import org.parasol.model.Claim;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
 
-import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Response;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
-import com.microsoft.playwright.options.LoadState;
-import io.quarkiverse.playwright.InjectPlaywright;
 import io.quarkiverse.playwright.WithPlaywright;
 import io.quarkiverse.quinoa.testing.QuinoaTestProfiles;
 
 @QuarkusTest
 @TestProfile(QuinoaTestProfiles.Enable.class)
 @WithPlaywright
-public class ClaimsDetailPageTests {
-	@InjectPlaywright
-	BrowserContext context;
-
-	@ConfigProperty(name = "quarkus.http.test-port")
-  int quarkusPort;
-
+public class ClaimsDetailPageTests extends PlaywrightTests {
 	@Test
 	void pageLoads() {
 		var claim = Claim.<Claim>findAll().firstResultOptional().orElseThrow(() -> new IllegalArgumentException("Can not find a claim in the database to use for tests"));
@@ -101,16 +88,6 @@ public class ClaimsDetailPageTests {
 	}
 
 	private Page loadPage(Claim claim) {
-		var page = this.context.newPage();
-		var response = page.navigate("http://localhost:%d/ClaimDetail/%d".formatted(this.quarkusPort, claim.id));
-
-		assertThat(response)
-			.isNotNull()
-			.extracting(Response::status)
-			.isEqualTo(Status.OK.getStatusCode());
-
-		page.waitForLoadState(LoadState.NETWORKIDLE);
-
-		return page;
+		return loadPage("ClaimDetail/%d".formatted(claim.id));
 	}
 }

@@ -6,22 +6,20 @@ import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 
-@RegisterAiService
+@RegisterAiService(modelName = "parasol-email")
 public interface EmailService {
     @SystemMessage("""
-        You are a helpful, respectful and honest assistant named "Parasol Assistant". You work for Parasol Insurance.
-        You will be given an email from a customer making an insurance claim. You must generate a response that will be emailed back to the customer, with an email subject and the email body summarizing the information they gave, and asking for
-        any other missing information needed from Parasol.
-
-        You will always answer with a JSON document, and only this JSON document.
-
-        Your response needs to contain the following information:
-            - the 'subject' key set to the subject of the response email
-            - the 'message' key set to the response text
+        You are a helpful, respectful and honest assistant named \"Parasol Assistant\". You work for Parasol Insurance. You will be given a message from a customer making an insurance claim.
         """
     )
     @UserMessage("""
-        claim: {{claim}}
+    Your response must contain the following elements in JSON:
+        - the 'subject' key set to the subject of your response, suitable to use as an email subject line.
+        - the 'message' key set to the response text that summarizes the information they gave, and asks for any other missing information needed from Parasol.
+
+        Here is the email from the customer: {{claim}}
+
+        Complete the response: {{{
     """)
     EmailResponse chat(String claim);
 }

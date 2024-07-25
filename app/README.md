@@ -3,7 +3,7 @@ By default the app will assume there is a chat model on https://localhost:8000/v
 If you would like to use Ollama instead, first install/run Ollama on your machine. Then do one of the following:
 
 ## Building the app
-When building the app, run `./mvnw clean package -DskipTests -Dquarkus.profile=ollama` (or `quarkus build --no-tests -Dquarkus.profile=ollama`)
+When building the app, run `./mvnw clean package -DskipTests -Dquarkus.profile=ollama,prod` (or `quarkus build --no-tests -Dquarkus.profile=ollama`)
 
 ## Running dev mode
 When running dev mode, run `./mvnw quarkus:dev -Dquarkus.profile=ollama` (or `quarkus dev -Dquarkus.profile=ollama`).

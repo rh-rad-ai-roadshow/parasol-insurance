@@ -21,3 +21,15 @@ updates:
     schedule:
       interval: daily
     target-branch: email-feature-branch
+
+  - package-ecosystem: maven
+    directory: app
+    schedule:
+      interval: daily
+    target-branch: private-docs-rag-solution
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+    target-branch: private-docs-rag-solution

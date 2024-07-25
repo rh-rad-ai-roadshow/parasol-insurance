@@ -12,7 +12,9 @@ import io.quarkus.test.junit.TestProfile;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Page.GetByRoleOptions;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
+import com.microsoft.playwright.options.AriaRole;
 import io.quarkiverse.playwright.WithPlaywright;
 import io.quarkiverse.quinoa.testing.QuinoaTestProfiles;
 
@@ -31,7 +33,7 @@ public class EmailGeneratePageTests extends PlaywrightTests {
 		PlaywrightAssertions.assertThat(emailContentField).isVisible();
 		emailContentField.fill("This is my claim details");
 
-		var submitButton = page.getByText("Submit");
+		var submitButton = page.getByRole(AriaRole.BUTTON, new GetByRoleOptions().setName("Submit"));
 		PlaywrightAssertions.assertThat(submitButton).isVisible();
 		submitButton.click();
 

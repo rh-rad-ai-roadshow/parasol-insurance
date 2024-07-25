@@ -1,56 +1,15 @@
-# code-with-quarkus
+By default the app will assume there is a chat model on https://localhost:8000/v1 that exposes an OpenAI endpoint.
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+If you would like to use Ollama instead, first install/run Ollama on your machine. Then do one of the following:
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+## Building the app
+When building the app, run `./mvnw clean package -DskipTests -Dquarkus.profile=ollama,prod` (or `quarkus build --no-tests -Dquarkus.profile=ollama`)
 
-## Running the application in dev mode
+## Running dev mode
+When running dev mode, run `./mvnw quarkus:dev -Dquarkus.profile=ollama` (or `quarkus dev -Dquarkus.profile=ollama`).
 
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
-```
+## Running tests
+When running tests, run `./mvnw verify -Dquarkus.test.profile=ollama` (or `quarkus build --tests -Dquarkus.test.profile=ollama -Dquarkus.profile=ollama`)
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
-
-## Packaging and running the application
-
-The application can be packaged using:
-```shell script
-./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using: 
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/code-with-quarkus-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+## Running the app outside dev mode
+If you want to run the app outside dev mode, first build the app as described above, then run `java -Dquarkus.profile=ollama,prod -jar target/quarkus-app/quarkus-run.jar`

@@ -3,14 +3,15 @@ module.exports.gradingConfig = {
       embedding: {
         id: 'openai:embedding:local',
         config: {
-        apiBaseUrl: 'http://localhost:9999/v1',
+        apiBaseUrl: process.env['EMBEDDING_MODEL_URL'],
         apiKey: 'local-service'
         }
     }
     }
   };
-  module.exports.providers = [{
-      id: 'https://xxx:443/v1/chat/completions',
+  module.exports.getProviders = (systemPrompt) => {
+    return [{
+      id: process.env['PARASOL_MODEL_URL'],
       config: {
          method: 'POST',
          headers: {'Content-Type': 'application/json'},
@@ -18,7 +19,7 @@ module.exports.gradingConfig = {
            model: "phi3",
            messages : [   
              {
-               content: 'You are a helpful assistant.',
+               content: systemPrompt,
                role: 'system'
              },
              {
@@ -30,5 +31,7 @@ module.exports.gradingConfig = {
           responseParser: 'json.choices[0].message.content'
       }
      
-  }];
+  }]
+    
+  }
   

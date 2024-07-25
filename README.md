@@ -6,7 +6,7 @@ A [Quarkus](https://quarkus.io) + [React](https://react.dev/) AI app for managin
 
 ## Pre-requisites
 
-- Java 17 or later -- Get it https://adoptium.net/  or install using your favorite package manager.
+- Java 21 or later -- Get it https://adoptium.net/  or install using your favorite package manager.
 - Maven 3.9.6 or later -- Get it https://maven.apache.org/download.cgi or install using your favorite package manager.
     - Or just use the embedded [Maven Wrapper](https://maven.apache.org/wrapper)
 - An OpenAI-capable LLM inference server. Get one here with [InstructLab](https://github.com/instructlab/instructlab)!

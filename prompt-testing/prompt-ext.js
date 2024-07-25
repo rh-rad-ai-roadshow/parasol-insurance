@@ -26,10 +26,11 @@ module.exports.extendExpect = function () {
   });
 }
 
-module.exports.callModel = async function (prompt) {
+module.exports.callModel = async function (prompt, systemPrompt =  "you are a polite agent" ) {
+
     const response = await promptfoo.evaluate({
       prompts: [prompt],
-      providers:modelsConfig.providers
+      providers:modelsConfig.getProviders(systemPrompt)
     });
 
     return response.results[0].response.output;

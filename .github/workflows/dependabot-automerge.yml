@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - email-feature-branch
+      - private-docs-rag-solution
 
 permissions:
   contents: write

@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - email-feature-branch
+      - private-docs-rag-solution
     paths-ignore:
       - '**/*.md'
       - '.github/dependabot.yml'
@@ -13,6 +14,7 @@ on:
     branches:
       - main
       - email-feature-branch
+      - private-docs-rag-solution
     paths-ignore:
       - '**/*.md'
       - '.github/dependabot.yml'
@@ -51,7 +53,8 @@ jobs:
         working-directory: app
         run: |
           ./mvnw -B clean verify \
-            -Dquarkus.langchain4j.parasol-chat.chat-model.provider=ollama \
-            -Dquarkus.langchain4j.parasol-email.chat-model.provider=ollama \
+            -Dquarkus.profile=ollama \
+            -Dquarkus.test.profile=ollama \
+            -Dquarkus.test.integration-test-profile=ollama \
             -Dquarkus.http.host=0.0.0.0 \
             -Dmaven.compiler.release=${{ matrix.java }}

@@ -54,6 +54,7 @@ class ClaimWebsocketChatBotTests {
 	void chatBotWorks() {
 		ArgumentMatcher<ClaimBotQuery> matcher = query ->
 			Objects.nonNull(query) &&
+				(query.claimId() == 1L) &&
 				QUERY.equals(query.query()) &&
 				CLAIM.equals(query.claim());
 

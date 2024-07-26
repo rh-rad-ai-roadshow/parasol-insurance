@@ -69,7 +69,7 @@ class ClaimWebsocketChatBotTests {
 		var connection = connectClient();
 
 		// Send our query
-		connection.sendTextAndAwait(new ClaimBotQuery(CLAIM, QUERY));
+		connection.sendTextAndAwait(new ClaimBotQuery(1, CLAIM, QUERY));
 
 		// Wait for the server to respond with what we expect
 		await()

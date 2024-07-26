@@ -7,7 +7,7 @@ import * as React from 'react';
 import orb from '@app/assets/bgimages/orb.svg';
 import userAvatar from '@app/assets/bgimages/avatar-user.svg';
 
-const Chat: React.FunctionComponent<{ claimSummary: string }> = ({ claimSummary }) => {
+const Chat: React.FunctionComponent<{ claimSummary: string, claimId: string }> = ({ claimSummary, claimId }) => {
 
     type Query = string;
     type Answer = string[];
@@ -73,6 +73,7 @@ const Chat: React.FunctionComponent<{ claimSummary: string }> = ({ claimSummary 
             // Put the query in a JSON object so that we can add other info later
             if (queryText != "" ) {
                 let data = {
+                    claimId: claimId,
                     query: queryText,
                     claim: claimSummary
                 };

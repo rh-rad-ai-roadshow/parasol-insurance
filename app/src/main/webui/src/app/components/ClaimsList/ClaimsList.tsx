@@ -35,7 +35,7 @@ const ClaimsList: React.FunctionComponent = () => {
         category: claim.category,
         client_name: claim.client_name,
         policy_number: claim.policy_number,
-        status: claim.summary ? 'Processed' : 'New',
+        status: claim.status,
     }));
 
     // Filter and sort
@@ -127,6 +127,8 @@ const ClaimsList: React.FunctionComponent = () => {
     const labelColors = {
         'Processed': 'green',
         'New': 'blue',
+        'Denied': 'red',
+        'In Process': 'gold'
     };
 
     return (
@@ -173,7 +175,9 @@ const ClaimsList: React.FunctionComponent = () => {
                         >
                             <FormSelectOption key={0} value="Any status" label="Any status" />
                             <FormSelectOption key={1} value="New" label="New" />
-                            <FormSelectOption key={2} value="Processed" label="Processed" />
+                            <FormSelectOption key={2} value="In Process" label="In Process" />
+                            <FormSelectOption key={3} value="Processed" label="Processed" />
+                            <FormSelectOption key={4} value="Denied" label="Denied" />
                         </FormSelect>
                     </FlexItem>
                 </Flex>

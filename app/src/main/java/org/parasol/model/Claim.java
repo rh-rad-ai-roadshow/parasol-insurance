@@ -26,4 +26,5 @@ public class Claim extends PanacheEntity {
     @Column(length = 5000)
     public String sentiment;
     public String emailAddress;
+    public String status;
 }

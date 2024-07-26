@@ -9,7 +9,7 @@ When building the app, run `./mvnw clean package -DskipTests -Dquarkus.profile=o
 When running dev mode, run `./mvnw quarkus:dev -Dquarkus.profile=ollama` (or `quarkus dev -Dquarkus.profile=ollama`).
 
 ## Running tests
-When running tests, run `./mvnw verify -Dquarkus.test.profile=ollama` (or `quarkus build --tests -Dquarkus.test.profile=ollama -Dquarkus.profile=ollama`)
+When running tests, run `./mvnw verify -Dquarkus.test.profile=ollama,test -Dquarkus.profile=ollama` (or `quarkus build --tests -Dquarkus.test.profile=ollama,test -Dquarkus.profile=ollama`)
 
 ## Running the app outside dev mode
 If you want to run the app outside dev mode, first build the app as described above, then run `java -Dquarkus.profile=ollama,prod -jar target/quarkus-app/quarkus-run.jar`

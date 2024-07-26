@@ -1,5 +1,5 @@
 package org.parasol.model;
 
-public record ClaimBotQuery(String claim, String query) {
+public record ClaimBotQuery(long claimId, String claim, String query) {
 
 }

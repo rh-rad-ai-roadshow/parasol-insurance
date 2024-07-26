@@ -33,6 +33,8 @@ public class ClaimWebsocketChatBot {
 
     @OnTextMessage
     public Multi<ClaimBotQueryResponse> onMessage(ClaimBotQuery query) {
+        Log.infof("Got chat query: %s", query);
+
         return bot.chat(query)
           .invoke(response -> Log.debugf("Got chat response: %s", response))
           .map(resp -> new ClaimBotQueryResponse("token", resp, ""));

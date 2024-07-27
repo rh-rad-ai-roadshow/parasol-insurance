@@ -86,7 +86,7 @@ public class ClaimsListPageTests extends PlaywrightTests {
 		assertThat(firstRow.get(4))
 			.isNotNull()
 			.extracting(Locator::textContent)
-			.isEqualTo("Processed");
+			.isEqualTo("In Process");
 	}
 
 	private List<Locator> getTableBodyRows(Locator table) {

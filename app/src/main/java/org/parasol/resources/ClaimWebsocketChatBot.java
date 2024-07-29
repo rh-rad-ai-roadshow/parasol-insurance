@@ -6,6 +6,7 @@ import org.parasol.model.ClaimBotQueryResponse;
 
 import io.quarkus.logging.Log;
 import io.quarkus.websockets.next.OnClose;
+import io.quarkus.websockets.next.OnError;
 import io.quarkus.websockets.next.OnOpen;
 import io.quarkus.websockets.next.OnTextMessage;
 import io.quarkus.websockets.next.WebSocket;
@@ -29,6 +30,14 @@ public class ClaimWebsocketChatBot {
     @OnClose
     public void onClose(WebSocketConnection connection) {
         Log.infof("Websocket connection %s closed", connection.id());
+    }
+
+    @OnError
+    public ClaimBotQueryResponse onError(Throwable error) {
+        var message = "Error occurred during chat: %s".formatted(error.getMessage());
+        Log.error(message, error);
+
+        return new ClaimBotQueryResponse("token", message, "");
     }
 
     @OnTextMessage

@@ -15,7 +15,7 @@ import dev.langchain4j.agent.tool.Tool;
 
 @ApplicationScoped
 public class NotificationService {
-	static final String INVALID_STATUS = "Status \"%s\" is not valid";
+	static final String INVALID_STATUS = "Status \"%s\" is not a valid status";
 	static final String NOTIFICATION_SUCCESS = "%s (claim number %s) has been notified of status update \"%s\"";
 	static final String NOTIFICATION_NO_CLAIMANT_FOUND = "No claim record found in the database for the given claim";
 	static final String MESSAGE_FROM = "noreply@parasol.com";
@@ -30,6 +30,7 @@ public class NotificationService {
 		
 		--------------------------------------------
 		Please note this is an unmonitored email box.
+		Should you choose to reply, nobody (not even an AI bot) will see your message.
 		""";
 
 	@Inject
@@ -38,6 +39,7 @@ public class NotificationService {
 	@Tool("update claim status")
 	@Transactional
 	public String updateClaimStatus(long claimId, String status) {
+		// Only want to actually do anything if the passed in status has at lease 3 characters
 		return Optional.ofNullable(status)
 			.filter(s -> s.trim().length() > 2)
 			.map(s -> updateStatus(claimId, s))
@@ -45,20 +47,36 @@ public class NotificationService {
 	}
 
 	private String updateStatus(long claimId, String status) {
+		// Only want to actually do anything if there is a corresponding claim in the database for the given claimId
 		return Claim.<Claim>findByIdOptional(claimId)
 			.map(claim -> updateStatus(claim, status))
 			.orElse(NOTIFICATION_NO_CLAIMANT_FOUND);
 	}
 
 	private String updateStatus(Claim claim, String status) {
+		// Capitalize the first letter
 		claim.status = status.trim().substring(0, 1).toUpperCase() + status.trim().substring(1);
+
+		// Save the claim with updated status
 		Claim.persist(claim);
 
-		this.mailer.send(
-			Mail.withText(claim.emailAddress, MESSAGE_SUBJECT, MESSAGE_BODY.formatted(claim.clientName, claim.claimNumber, claim.status))
-				.setFrom(MESSAGE_FROM)
-		);
+		// Send the email
+		sendEmail(claim);
 
+		// Return a note to the AI
 		return NOTIFICATION_SUCCESS.formatted(claim.emailAddress, claim.claimNumber, claim.status);
+	}
+
+	private void sendEmail(Claim claim) {
+		// Create the email
+		var email = Mail.withText(
+			claim.emailAddress,
+				MESSAGE_SUBJECT,
+				MESSAGE_BODY.formatted(claim.clientName, claim.claimNumber, claim.status)
+			)
+			.setFrom(MESSAGE_FROM);
+
+		// Send the email to the user
+		this.mailer.send(email);
 	}
 }

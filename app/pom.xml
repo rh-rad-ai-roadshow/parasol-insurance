@@ -1,6 +1,5 @@
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.parasol</groupId>
   <artifactId>insurance-app</artifactId>
@@ -11,7 +10,8 @@
     <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <quarkus.langchain4j.version>0.16.4</quarkus.langchain4j.version>
+    <quarkus.langchain4j.version>0.17.0.CR1</quarkus.langchain4j.version>
+    <quarkus.mailpit.version>1.1.1</quarkus.mailpit.version>
     <quarkus.playwright.version>1.0.0</quarkus.playwright.version>
     <quarkus.quinoa.version>2.4.4</quarkus.quinoa.version>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
@@ -78,6 +78,15 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-mailer</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkiverse.mailpit</groupId>
+      <artifactId>quarkus-mailpit</artifactId>
+      <version>${quarkus.mailpit.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5</artifactId>
       <scope>test</scope>
     </dependency>
@@ -117,6 +126,12 @@
     <dependency>
       <groupId>org.awaitility</groupId>
       <artifactId>awaitility</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkiverse.mailpit</groupId>
+      <artifactId>quarkus-mailpit-testing</artifactId>
+      <version>${quarkus.mailpit.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

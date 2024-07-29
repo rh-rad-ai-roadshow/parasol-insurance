@@ -40,6 +40,15 @@ public class ClaimWebsocketChatBot {
         return new ClaimBotQueryResponse("token", message, "");
     }
 
+//    @OnTextMessage
+//    public ClaimBotQueryResponse onMessage(ClaimBotQuery query) {
+//        Log.infof("Got chat query: %s", query);
+//        var response = new ClaimBotQueryResponse("token", this.bot.chat(query), "");
+//        Log.debugf("Got chat response: %s", response);
+//
+//        return response;
+//    }
+
     @OnTextMessage
     public Multi<ClaimBotQueryResponse> onMessage(ClaimBotQuery query) {
         Log.infof("Got chat query: %s", query);

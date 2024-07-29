@@ -14,6 +14,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import jakarta.inject.Inject;
 
 import org.jboss.logging.Logger;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
 import org.parasol.ai.ClaimService;
@@ -40,6 +41,11 @@ class ClaimWebsocketChatBotTests {
 	private static final String CLAIM = "This is the claim details";
 	private static final String QUERY = "Should I approve this claim?";
 	private static final List<String> RESPONSE = List.of("You", "should", "not", "approve", "this", "claim");
+	private static final ArgumentMatcher<ClaimBotQuery> CHAT_SERVICE_MATCHER = query ->
+			Objects.nonNull(query) &&
+				(query.claimId() == 1L) &&
+				QUERY.equals(query.query()) &&
+				CLAIM.equals(query.claim());
 
 	@InjectMock
 	ClaimService claimService;
@@ -50,20 +56,19 @@ class ClaimWebsocketChatBotTests {
 	@Inject
 	WebSocketConnector<ClientEndpoint> connector;
 
+	@BeforeEach
+	void beforeEach() {
+		ClientEndpoint.MESSAGES.clear();
+	}
+
 	@Test
 	void chatBotWorks() {
-		ArgumentMatcher<ClaimBotQuery> matcher = query ->
-			Objects.nonNull(query) &&
-				(query.claimId() == 1L) &&
-				QUERY.equals(query.query()) &&
-				CLAIM.equals(query.claim());
-
 		// A Multi which will return our response with a 0.5 second delay between each item
 		var delayedMulti = Multi.createFrom().iterable(RESPONSE)
 			.onItem().call(() -> Uni.createFrom().nullItem().onItem().delayIt().by(Duration.ofMillis(500)));
 
 		// Set up our AI mock
-		when(this.claimService.chat(argThat(matcher)))
+		when(this.claimService.chat(argThat(CHAT_SERVICE_MATCHER)))
 			.thenReturn(delayedMulti);
 
 		// Create a WebSocket connection and wait for the connection to establish
@@ -85,7 +90,38 @@ class ClaimWebsocketChatBotTests {
 		connection.closeAndAwait();
 
 		// Verify the AI chat was called with the correct parameters
-		verify(this.claimService).chat(argThat(matcher));
+		verify(this.claimService).chat(argThat(CHAT_SERVICE_MATCHER));
+		verifyNoMoreInteractions(this.claimService);
+	}
+
+	@Test
+	void chatBotHandlesError() {
+		var error = new IllegalArgumentException("Something bad happened");
+
+		// Set up mock to throw an error
+		when(this.claimService.chat(argThat(CHAT_SERVICE_MATCHER)))
+			.thenReturn(Multi.createFrom().failure(error));
+
+		// Create a WebSocket connection and wait for the connection to establish
+		var connection = connectClient();
+
+		// Send our query
+		connection.sendTextAndAwait(new ClaimBotQuery(1, CLAIM, QUERY));
+
+		// Wait for the server to respond with the error we expect
+		await()
+			.atMost(Duration.ofMinutes(5))
+			.until(() -> ClientEndpoint.MESSAGES.size() == 1);
+
+		assertThat(ClientEndpoint.MESSAGES)
+			.singleElement()
+			.isEqualTo("Error occurred during chat: %s".formatted(error.getMessage()));
+
+		// Close the connection
+		connection.closeAndAwait();
+
+		// Verify the AI chat was called with the correct parameters
+		verify(this.claimService).chat(argThat(CHAT_SERVICE_MATCHER));
 		verifyNoMoreInteractions(this.claimService);
 	}
 
@@ -124,7 +160,7 @@ class ClaimWebsocketChatBotTests {
 
 		@OnError
 		void error(Throwable error) {
-			this.logger.errorf(error, "[CLIENT] Encountered an error");
+			this.logger.errorf(error, "[CLIENT] Got error: %s", error.getMessage());
 		}
 
 		@OnClose

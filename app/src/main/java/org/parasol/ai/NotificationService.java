@@ -31,6 +31,7 @@ public class NotificationService {
 		--------------------------------------------
 		Please note this is an unmonitored email box.
 		Should you choose to reply, nobody (not even an AI bot) will see your message.
+		Call a real human should you have any questions. 1-800-CAR-SAFE.
 		""";
 
 	@Inject

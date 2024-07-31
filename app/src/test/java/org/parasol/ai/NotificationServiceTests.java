@@ -21,7 +21,6 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.quarkiverse.mailpit.test.InjectMailbox;
 import io.quarkiverse.mailpit.test.Mailbox;
 import io.quarkiverse.mailpit.test.WithMailbox;
-import io.quarkiverse.mailpit.test.invoker.ApiException;
 import io.quarkiverse.mailpit.test.model.Message;
 
 @QuarkusTest
@@ -35,12 +34,12 @@ class NotificationServiceTests {
 	NotificationService emailService;
 
 	@AfterEach
-	void afterEach() throws ApiException {
+	void afterEach() {
 		this.mailbox.clear();
 	}
 
 	@Test
-	void emailSendsWhenUserExists() throws ApiException {
+	void emailSendsWhenUserExists() {
 		var status = "Denied";
 		var claimId = 1L;
 		var claim = Claim.<Claim>findByIdOptional(claimId)
@@ -84,7 +83,7 @@ class NotificationServiceTests {
 	}
 
 	@Test
-	void noEmailSentWhenClaimantNotFound() throws ApiException {
+	void noEmailSentWhenClaimantNotFound() {
 		assertThat(this.emailService.updateClaimStatus(-1L, "Under investigation"))
 			.isNotNull()
 			.isEqualTo(NotificationService.NOTIFICATION_NO_CLAIMANT_FOUND);
@@ -95,7 +94,7 @@ class NotificationServiceTests {
 	@ParameterizedTest
 	@NullAndEmptySource
 	@ValueSource(strings = { "a", "aa", " ", "  " })
-	void invalidStatus(String status) throws ApiException {
+	void invalidStatus(String status) {
 		assertThat(this.emailService.updateClaimStatus(1L, status))
 			.isNotNull()
 			.isEqualTo(NotificationService.INVALID_STATUS, status);
@@ -103,13 +102,13 @@ class NotificationServiceTests {
 		assertNoEmailSent();
 	}
 
-	private void assertNoEmailSent() throws ApiException {
+	private void assertNoEmailSent() {
 		assertThat(findFirstMessage())
 			.isNotNull()
 			.isNotPresent();
 	}
 
-	private Optional<Message> findFirstMessage() throws ApiException {
+	private Optional<Message> findFirstMessage() {
 		return Optional.ofNullable(this.mailbox.findFirst(NotificationService.MESSAGE_FROM));
 	}
 }

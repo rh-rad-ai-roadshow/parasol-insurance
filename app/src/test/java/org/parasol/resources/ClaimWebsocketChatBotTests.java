@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.stream.Collectors;
 
 import jakarta.inject.Inject;
 
@@ -69,7 +68,7 @@ class ClaimWebsocketChatBotTests {
 			.onItem().call(() -> Uni.createFrom().nullItem().onItem().delayIt().by(Duration.ofMillis(500)));
 
 		// Set up our AI mock
-		var reply = RESPONSE.stream().collect(Collectors.joining(" "));
+//		var reply = RESPONSE.stream().collect(Collectors.joining(" "));
 		when(this.claimService.chat(argThat(CHAT_SERVICE_MATCHER)))
 //			.thenReturn(reply);
 			.thenReturn(delayedMulti);

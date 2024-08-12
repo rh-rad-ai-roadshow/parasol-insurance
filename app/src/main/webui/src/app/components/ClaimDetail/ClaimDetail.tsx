@@ -63,9 +63,11 @@ const ClaimDetail: React.FunctionComponent<ClaimProps> = () => {
 
   // Custom render for the status
   const labelColors = {
-    'Processed': 'green',
-    'New': 'blue',
-  };
+        'Processed': 'green',
+        'New': 'blue',
+        'Denied': 'red',
+        'In Process': 'gold'
+    };
 
   return (
     <Page>
@@ -84,7 +86,7 @@ const ClaimDetail: React.FunctionComponent<ClaimProps> = () => {
                     </Title>
                   </FlexItem>
                   <FlexItem>
-                    <Label color={labelColors[String(claim.summary ? 'Processed' : 'New')]}>{claim.summary ? 'Processed' : 'New'}</Label>
+                    <Label color={labelColors[String(claim.status)]}>{claim.status}</Label>
                   </FlexItem>
                   <FlexItem align={{ default: 'alignRight' }}>
                     <TextContent>
@@ -206,7 +208,7 @@ const ClaimDetail: React.FunctionComponent<ClaimProps> = () => {
           </FlexItem>
         </Flex>
         <Flex className={isChatOpen ? 'chat-fadeIn' : 'chat-fadeOut'}>
-          <FlexItem className='chat-panel'><Chat claimSummary={claim.summary}/></FlexItem>
+          <FlexItem className='chat-panel'><Chat claimSummary={claim.summary} claimId={claim_id}/></FlexItem>
         </Flex>
       </PageSection>
     </Page>

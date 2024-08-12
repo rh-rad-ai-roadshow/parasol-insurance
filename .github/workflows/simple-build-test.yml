@@ -53,6 +53,8 @@ jobs:
         working-directory: app
         run: |
           ./mvnw -B clean verify \
-            -Dquarkus.langchain4j.parasol-chat.chat-model.provider=ollama \
+            -Dquarkus.profile=ollama \
+            -Dquarkus.test.profile=ollama,test \
+            -Dquarkus.test.integration-test-profile=ollama,prod \
             -Dquarkus.http.host=0.0.0.0 \
             -Dmaven.compiler.release=${{ matrix.java }}

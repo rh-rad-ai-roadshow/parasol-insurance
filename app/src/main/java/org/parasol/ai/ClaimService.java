@@ -21,6 +21,8 @@ public interface ClaimService {
         """
     )
     @UserMessage("""
+        Claim ID: {{query.claimId}}
+        
         Claim Summary:
         {{query.claim}}
 

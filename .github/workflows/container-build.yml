@@ -42,11 +42,11 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         id: build-image
         with:
-          context: app
+          context: ./app
           image: parasol-insurance
           tags: latest ${{ github.sha }}
           containerfiles: |
-            ./src/main/podman/Containerfile
+            ./app/src/main/podman/Containerfile
 
       - name: Push To quay.io
         id: push-to-quay

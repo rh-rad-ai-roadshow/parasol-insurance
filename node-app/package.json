@@ -1,0 +1,28 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "server.mjs",
+  "scripts": {
+    "prebuildui": "npm run cleanui",
+    "buildui": "cd ../webui && npm install && npm run build",
+    "cleanui": "rm -rf ../webui/node_modules ../webui/dist",
+    "start": "node server.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/env": "^4.4.0",
+    "@fastify/static": "^7.0.4",
+    "@fastify/websocket": "^10.0.1",
+    "@langchain/core": "^0.2.16",
+    "fastify": "^4.28.1",
+    "fastify-plugin": "^4.5.1",
+    "langchain": "^0.2.10",
+    "sqlite3": "^5.1.7",
+    "ws": "^8.18.0"
+  }
+}

@@ -1,5 +1,8 @@
 name: Build container image
 
+env:
+  JAVA_VERSION: '21'
+
 on:
   push:
     branches:
@@ -18,45 +21,29 @@ concurrency:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        java:
-          - '21'
-    name: "build-and-push-${{ matrix.java }}"
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Java ${{ matrix.java }}
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          java-version: ${{ matrix.java }}
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: temurin
           cache: maven
 
-      - name: "build-java${{ matrix.java }}"
+      - name: "build-and-push-app"
         working-directory: app
-        run: ./mvnw -B clean package -DskipTests
-
-      - name: Build Image
-        uses: redhat-actions/buildah-build@v2
-        id: build-image
-        with:
-          context: ./app
-          image: parasol-insurance
-          tags: latest ${{ github.sha }}
-          containerfiles: |
-            ./app/src/main/podman/Containerfile
-
-      - name: Push To quay.io
-        id: push-to-quay
-        uses: redhat-actions/push-to-registry@v2
-        with:
-          image: ${{ steps.build-image.outputs.image }}
-          tags: ${{ steps.build-image.outputs.tags }}
-          registry: quay.io/rhappsvcs
-          username: rhappsvcs+parasol
-          password: ${{ secrets.REGISTRY_PASSWORD }}
-
-      - name: Print image url
-        run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }}"
+        run: |
+          ./mvnw -B quarkus:add-extension -Dextensions="quarkus-container-image-podman" &&
+          ./mvnw -B clean package -DskipTests \
+            -Dquarkus.container-image.builder=podman \
+            -Dquarkus.container-image.build=true \
+            -Dquarkus.container-image.push=true \
+            -Dquarkus.container-image.tag=latest \
+            -Dquarkus.container-image.additional-tags=${{ github.sha }} \
+            -Dquarkus.container-image.registry=quay.io \
+            -Dquarkus.container-image.group=rhappsvcs \
+            -Dquarkus.container-image.name=parasol-insurance \
+            -Dquarkus.container-image.username=rhappsvcs+parasol \
+            -Dquarkus.container-image.password=${{ secrets.REGISTRY_PASSWORD }} \
+            -Dquarkus.podman.platform=linux/amd64,linux/arm64

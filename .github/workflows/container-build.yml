@@ -4,19 +4,18 @@ env:
   JAVA_VERSION: '21'
 
 on:
-  push:
+  workflow_run:
+    workflows:
+      - "Simple build and test"
     branches:
       - main
-    #   - email-feature-branch
-    #   - private-docs-rag-solution
-    paths-ignore:
-      - '**/*.md'
-      - '.github/dependabot.yml'
-      - '.github/workflows/dependabot-automerge.yml'
+    types:
+      - completed
+  workflow_dispatch:
 
 concurrency:
-  group: "workflow = ${{ github.workflow }}, ref = ${{ github.event.ref }}, pr = ${{ github.event.pull_request.id }}"
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: "workflow = ${{ github.workflow }}, ref = ${{ github.event.workflow_run.head_branch || github.event.ref || github.ref }}"
+  cancel-in-progress: false
 
 defaults:
   run:
@@ -24,6 +23,7 @@ defaults:
 
 jobs:
   build-and-push:
+    if: ((github.event_name == 'workflow_dispatch') || ((github.event_name == 'workflow_run') && ((github.event.workflow_run.event == 'push') || (github.event.workflow_run.event == 'workflow_dispatch')) && (github.event.workflow_run.conclusion == 'success'))) && ((github.repository == 'rh-rad-ai-roadshow/parasol-insurance') && ((github.event.workflow_run.head_branch == 'main')))
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4

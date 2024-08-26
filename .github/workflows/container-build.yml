@@ -35,14 +35,6 @@ jobs:
           distribution: temurin
           cache: maven
 
-      - name: Update Podman
-        run: |
-          sudo apt-get update &&
-          sudo apt-get -y install podman
-
-      - name: Print podman version
-        run: podman version
-
       - name: "build-and-push-app"
         working-directory: app
         run: |

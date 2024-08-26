@@ -18,6 +18,10 @@ concurrency:
   group: "workflow = ${{ github.workflow }}, ref = ${{ github.event.ref }}, pr = ${{ github.event.pull_request.id }}"
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -35,6 +39,9 @@ jobs:
         run: |
           sudo apt-get update &&
           sudo apt-get -y install podman
+
+      - name: Print podman version
+        run: podman version
 
       - name: "build-and-push-app"
         working-directory: app

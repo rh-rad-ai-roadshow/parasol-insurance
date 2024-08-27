@@ -16,7 +16,6 @@ import jakarta.inject.Inject;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatcher;
 import org.parasol.ai.ClaimService;
@@ -45,11 +44,6 @@ class ClaimWebsocketChatBotTests {
 				(query.claimId() == 1L) &&
 				QUERY.equals(query.query()) &&
 				CLAIM.equals(query.claim());
-	private static final ArgumentMatcher<ClaimBotQuery> CHAT_SERVICE_MATCHER = query ->
-			Objects.nonNull(query) &&
-				(query.claimId() == 1L) &&
-				QUERY.equals(query.query()) &&
-				CLAIM.equals(query.claim());
 
 	@InjectMock
 	ClaimService claimService;
@@ -59,11 +53,6 @@ class ClaimWebsocketChatBotTests {
 
 	@Inject
 	WebSocketConnector<ClientEndpoint> connector;
-
-	@BeforeEach
-	void beforeEach() {
-		ClientEndpoint.MESSAGES.clear();
-	}
 
 	@BeforeEach
 	void beforeEach() {

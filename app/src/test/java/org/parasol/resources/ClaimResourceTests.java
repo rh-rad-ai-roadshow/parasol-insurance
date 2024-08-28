@@ -88,7 +88,8 @@ class ClaimResourceTests {
 			.usingRecursiveComparison()
 			.isEqualTo(createClaim());
 
-		PanacheMock.verify(Claim.class).findById(1);
+		PanacheMock.verify(Claim.class);
+		Claim.findById(1);
 		PanacheMock.verifyNoMoreInteractions(Claim.class);
 	}
 

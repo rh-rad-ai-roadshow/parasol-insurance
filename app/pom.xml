@@ -56,10 +56,6 @@
       <artifactId>quarkus-langchain4j-ollama</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.quarkiverse.langchain4j</groupId>
-      <artifactId>quarkus-langchain4j-easy-rag</artifactId>
-    </dependency>
-    <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-websockets-next</artifactId>
     </dependency>
@@ -84,6 +80,11 @@
       <groupId>io.quarkiverse.mailpit</groupId>
       <artifactId>quarkus-mailpit</artifactId>
       <version>${quarkus.mailpit.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkiverse.langchain4j</groupId>
+      <artifactId>quarkus-langchain4j-easy-rag</artifactId>
+      <version>0.17.2</version>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>

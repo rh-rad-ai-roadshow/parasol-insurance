@@ -1,5 +1,5 @@
-INSERT INTO claim(id, claim_number, category, policy_number, client_name, email_address, subject, body, summary, location, claim_time, sentiment, status)
-    VALUES (1, 'CLM195501', 'Multiple vehicle', 'AC-987654321', 'Marty McFly', 'marty.mcfly@email.com','Claim for Recent Car Accident - Policy Number: AC-987654321', '
+INSERT INTO claim(id, claim_number, inception_date, category, policy_number, client_name, email_address, subject, body, summary, location, claim_time, sentiment, status)
+    VALUES (1, 'CLM195501', '1954-09-30', 'Multiple vehicle', 'AC-987654321', 'Marty McFly', 'marty.mcfly@email.com','Claim for Recent Car Accident - Policy Number: AC-987654321', '
     Dear Parasol Insurance,
 
     I hope this email finds you well. My name is Marty McFly, and I am writing to file a claim for a recent car accident that occurred on January 2nd, 1955, at approximately 3:30 PM. My policy number is AC-987654321.
@@ -40,8 +40,8 @@ INSERT INTO claim(id, claim_number, category, policy_number, client_name, email_
     'In Process'
     );
 
-INSERT INTO claim(id, claim_number, category, policy_number, client_name, email_address, subject, body, summary, location, claim_time, sentiment, status)
-    VALUES (2, 'CLM202402', 'Multiple vehicle', 'PT-567890', 'John T. Anderson', 'JAnderson@mail.com','Urgent: Unacceptable Delay and Lack of Communication Regarding Claim #XYZ789', '
+INSERT INTO claim(id, claim_number, inception_date, category, policy_number, client_name, email_address, subject, body, summary, location, claim_time, sentiment, status)
+    VALUES (2, 'CLM202402','1954-09-30', 'Multiple vehicle', 'PT-567890', 'John T. Anderson', 'JAnderson@mail.com','Urgent: Unacceptable Delay and Lack of Communication Regarding Claim #XYZ789', '
     Dear Parasol Insurances,
 
     I am writing to express my extreme dissatisfaction with the appalling service I have received concerning my recent claim, reference number #XYZ789. The lack of communication and delayed response from your company is utterly unacceptable, and I demand immediate attention to rectify this matter.
@@ -72,8 +72,8 @@ INSERT INTO claim(id, claim_number, category, policy_number, client_name, email_
     'The sender of this claim is expressing extreme dissatisfaction with the handling of their insurance claim by Parasol Insurances. They are frustrated with the lack of communication and the significant delay in processing their claim. The tone of the message is demanding and assertive, with the sender threatening to escalate the matter if their concerns are not addressed promptly.',
     'Processed'
     );
-INSERT INTO claim(id, claim_number, category, policy_number, client_name, email_address, subject, body, summary, location, claim_time, sentiment, status)
-    VALUES (3, 'CLM502803', 'Multiple vehicle', 'AC-987654', 'Jane Doe', 'jane_doe@email.com','Urgent: Car Accident Claim Assistance Needed', '
+INSERT INTO claim(id, claim_number, inception_date, category, policy_number, client_name, email_address, subject, body, summary, location, claim_time, sentiment, status)
+    VALUES (3, 'CLM502803', '1954-09-30', 'Multiple vehicle', 'AC-987654', 'Jane Doe', 'jane_doe@email.com','Urgent: Car Accident Claim Assistance Needed', '
     Dear Parasol Inc.,
 
     I hope this email finds you well. I''m writing to, uh, inform you about, well, something that happened recently. It''s, um, about a car accident, and I''m not really sure how to, you know, go about all this. I''m kinda anxious and confused, to be honest.
@@ -104,8 +104,8 @@ INSERT INTO claim(id, claim_number, category, policy_number, client_name, email_
     'New'
     );
 
-INSERT INTO claim(id, claim_number, category, policy_number, client_name, email_address, subject, body, summary, location, claim_time, sentiment, status)
-    VALUES (4, 'CLM202415', 'Single vehicle', 'BK-5165426', 'Dominic Toretto', 'domt@email.com', 'Claim for Car Accident - Policy #: BK-5165426', '
+INSERT INTO claim(id, claim_number, inception_date, category, policy_number, client_name, email_address, subject, body, summary, location, claim_time, sentiment, status)
+    VALUES (4, 'CLM202415', '1954-09-30', 'Single vehicle', 'BK-5165426', 'Dominic Toretto', 'domt@email.com', 'Claim for Car Accident - Policy #: BK-5165426', '
     Dear Parasol Insurance Team,
 
     I hope this email finds you well. I''m reaching out to file a claim regarding a recent incident involving my car, which is covered under my policy with Parasol. The accident occurred last night on the streets of Los Angeles, and I wanted to provide you with all the necessary details.
@@ -138,8 +138,8 @@ INSERT INTO claim(id, claim_number, category, policy_number, client_name, email_
     'Denied'
     );
 
-INSERT INTO claim(id, claim_number, category, policy_number, client_name, email_address, subject, body, summary, location, claim_time, sentiment, status)
-    VALUES (5, 'CLM52125', 'Multiple vehicle', 'AC-418324', 'Saul Goodman', 'bettercallsaul@email.com', 'Where is My Money? Urgent Attention Needed for My Car Accident Claim', '
+INSERT INTO claim(id, claim_number, inception_date, category, policy_number, client_name, email_address, subject, body, summary, location, claim_time, sentiment, status)
+    VALUES (5, 'CLM52125', '1954-09-30', 'Multiple vehicle', 'AC-418324', 'Saul Goodman', 'bettercallsaul@email.com', 'Where is My Money? Urgent Attention Needed for My Car Accident Claim', '
     Dear Parasol Insurance Claims Department,
 
     I am absolutely *thrilled* (read: infuriated) to be writing yet another heartfelt missive to the void that is your customer service. My recent car accident claim has vanished into the ether, much like my patience and the professionalism I expected from your company. How about we resolve this before the next ice age?
@@ -165,8 +165,8 @@ INSERT INTO claim(id, claim_number, category, policy_number, client_name, email_
     'In Process'
     );
 
-INSERT INTO claim(id, claim_number, category, policy_number, client_name, email_address, subject, body, summary, location, claim_time, sentiment, status)
-    VALUES (6, 'CLM605208', 'Multiple vehicle', 'AC-768901', 'Tyrion Lannister', 'tylannister@email.com', 'Urgent Claim Review Required: Collision in King''s Landing', '
+INSERT INTO claim(id, claim_number, inception_date, category, policy_number, client_name, email_address, subject, body, summary, location, claim_time, sentiment, status)
+    VALUES (6, 'CLM605208', '1954-09-30', 'Multiple vehicle', 'AC-768901', 'Tyrion Lannister', 'tylannister@email.com', 'Urgent Claim Review Required: Collision in King''s Landing', '
     Dear Parasol Insurance Claims Department,
 
     This correspondence is from Tyrion Lannister, currently not in a tavern but rather dealing with the aftermath of an unpleasant vehicular incident. As a man known for resolving conflicts, I find myself ironically embroiled in one that requires your immediate attention.

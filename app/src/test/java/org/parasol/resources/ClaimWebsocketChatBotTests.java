@@ -5,7 +5,10 @@ import static org.awaitility.Awaitility.await;
 import static org.mockito.Mockito.*;
 
 import java.net.URI;
+import java.sql.Time;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
@@ -38,6 +41,7 @@ import io.quarkus.websockets.next.WebSocketConnector;
 class ClaimWebsocketChatBotTests {
 	private static final String CLAIM = "This is the claim details";
 	private static final String QUERY = "Should I approve this claim?";
+	private static final LocalDate INCEPTION_DATE = LocalDate.of(1954, 9, 30);
 	private static final List<String> RESPONSE = List.of("You", "should", "not", "approve", "this", "claim");
 	private static final ArgumentMatcher<ClaimBotQuery> CHAT_SERVICE_MATCHER = query ->
 			Objects.nonNull(query) &&
@@ -75,7 +79,7 @@ class ClaimWebsocketChatBotTests {
 		var connection = connectClient();
 
 		// Send our query
-		connection.sendTextAndAwait(new ClaimBotQuery(1, CLAIM, QUERY));
+		connection.sendTextAndAwait(new ClaimBotQuery(1, CLAIM, QUERY, INCEPTION_DATE));
 
 		// Wait for the server to respond with what we expect
 		await()

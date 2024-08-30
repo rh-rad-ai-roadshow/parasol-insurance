@@ -109,7 +109,7 @@ class ClaimWebsocketChatBotTests {
 		var connection = connectClient();
 
 		// Send our query
-		connection.sendTextAndAwait(new ClaimBotQuery(1, CLAIM, QUERY));
+		connection.sendTextAndAwait(new ClaimBotQuery(1, CLAIM, QUERY, INCEPTION_DATE));
 
 		// Wait for the server to respond with the error we expect
 		await()

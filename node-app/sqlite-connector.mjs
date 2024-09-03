@@ -13,6 +13,7 @@ async function sqliteConnection(fastify, options) {
   claim_number TEXT NOT NULL,
   category TEXT NOT NULL,
   policy_number TEXT NOT NULL,
+  inception_date DATETIME NOT NULL,
   client_name TEXT NOT NULL,
   email_address TEXT NOT NULL,
   subject TEXT NOTE NULL,

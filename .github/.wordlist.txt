@@ -169,6 +169,7 @@ ocs
 ods
 ojsonpath
 ok
+Ollama
 onnx
 openai
 OpenAI

@@ -7,7 +7,7 @@ import * as React from 'react';
 import orb from '@app/assets/bgimages/orb.svg';
 import userAvatar from '@app/assets/bgimages/avatar-user.svg';
 
-const Chat: React.FunctionComponent<{ claimSummary: string, claimId: string }> = ({ claimSummary, claimId }) => {
+const Chat: React.FunctionComponent<{ claimSummary: string, claimId: string, inceptionDate: Date }> = ({ claimSummary, claimId, inceptionDate }) => {
 
     type Query = string;
     type Answer = string[];
@@ -75,7 +75,8 @@ const Chat: React.FunctionComponent<{ claimSummary: string, claimId: string }> =
                 let data = {
                     claimId: claimId,
                     query: queryText,
-                    claim: claimSummary
+                    claim: claimSummary,
+                    inceptionDate: inceptionDate
                 };
                 connection.current?.send(JSON.stringify(data)); // Send the query to the server
             } else {

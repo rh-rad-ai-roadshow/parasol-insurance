@@ -8,7 +8,8 @@ import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 
-@RegisterAiService(modelName = "parasol-chat", tools = NotificationService.class)
+//@RegisterAiService(modelName = "parasol-chat", tools = NotificationService.class)
+@RegisterAiService(modelName = "parasol-chat")
 @SessionScoped
 public interface ClaimService {
     @SystemMessage("""

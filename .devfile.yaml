@@ -30,17 +30,17 @@ components:
         - exposure: public
           name: parasol-webui
           protocol: https
-          targetPort: 8080
+          targetPort: 8005
         - exposure: public
           name: quarkus-devui
           path: /q/dev-ui
           protocol: https
-          targetPort: 8080
+          targetPort: 8005
         - exposure: public
           name: mailpit
           path: /q/mailpit
           protocol: https
-          targetPort: 8080
+          targetPort: 8005
       memoryRequest: 5Mi
       memoryLimit: 6G
       cpuRequest: 1000m

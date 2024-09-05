@@ -13,10 +13,10 @@
     <quarkus.langchain4j.version>0.17.2</quarkus.langchain4j.version>
     <quarkus.mailpit.version>1.2.2</quarkus.mailpit.version>
     <quarkus.playwright.version>1.0.0</quarkus.playwright.version>
-    <quarkus.quinoa.version>2.4.6</quarkus.quinoa.version>
+    <quarkus.quinoa.version>2.4.7</quarkus.quinoa.version>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>3.14.1</quarkus.platform.version>
+    <quarkus.platform.version>3.14.2</quarkus.platform.version>
     <skipITs>true</skipITs>
     <surefire-plugin.version>3.5.0</surefire-plugin.version>
   </properties>

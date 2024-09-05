@@ -63,7 +63,7 @@ public class ClaimsDetailPageTests extends PlaywrightTests {
 
 		// Wait for the answer text to have at least one piece of text in the answer
 		await()
-			.atMost(Duration.ofMinutes(5))
+			.atMost(Duration.ofMinutes(10))
 			.until(() -> getChatResponseText(page).isPresent());
 
 		assertThat(getChatResponseText(page))

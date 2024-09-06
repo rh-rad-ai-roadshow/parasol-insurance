@@ -21,6 +21,17 @@ sync_prompt_testing() {
   cp -Rfv $prompt_testing_source/* $prompt_testing_target
 }
 
+sync_vscode() {
+  local vscode_source=$source_root/.vscode
+  local vscode_target=$target_directory/.vscode
+
+  if [[ ! -d "$vscode_target" ]]; then
+    mkdir -p $vscode_target
+  fi
+
+  cp -Rfv $vscode_source/* $vscode_target
+}
+
 replace_in_file() {
   local filename=$1
   local search_replace_string=$2
@@ -54,4 +65,5 @@ sync_app() {
 }
 
 sync_prompt_testing
+sync_vscode
 sync_app

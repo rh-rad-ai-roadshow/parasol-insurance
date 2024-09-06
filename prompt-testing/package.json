@@ -1,7 +1,8 @@
 {
   "devDependencies": {
     "jest": "^29.7.0",
-    "promptfoo": "^0.73.4"
+    "promptfoo": "^0.73.4",
+    "better-sqlite3": "11.1.2"
   },
   "scripts": {
     "test": "jest"

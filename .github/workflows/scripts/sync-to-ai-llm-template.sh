@@ -25,7 +25,7 @@ replace_in_file() {
   local filename=$1
   local search_replace_string=$2
 
-  sed -er "$search_replace_string" "$filename" > "${filename}.new" && mv -- "${filename}.new" "$filename"
+  sed -r "$search_replace_string" "$filename" > "${filename}.new" && mv -- "${filename}.new" "$filename"
 }
 
 sync_app() {

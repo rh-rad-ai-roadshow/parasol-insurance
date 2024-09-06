@@ -18,7 +18,7 @@ sync_prompt_testing() {
     mkdir -p $prompt_testing_target
   fi
 
-  cp -Rfv $prompt_testing_source/ $prompt_testing_target
+  cp -Rfv $prompt_testing_source/* $prompt_testing_target
 }
 
 replace_in_file() {

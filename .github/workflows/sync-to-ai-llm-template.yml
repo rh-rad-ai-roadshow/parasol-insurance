@@ -44,16 +44,25 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      - uses: actions/create-github-app-token@v1
+        id: generate-token
+        with:
+          app-id: ${{ secrets.SYNC_APP_ID }}
+          private-key: ${{ secrets.SYNC_PRIVATE_KEY }}
+          repositories: ai-llm-template
+
       - name: Checkout this repo
         uses: actions/checkout@v4
         with:
           path: parasol-insurance
+          ref: ${{ needs.calculate-refs.outputs.ref }}
 
       - name: Checkout ai-llm-template repo
         uses: actions/checkout@v4
         with:
           repository: ${{ env.LLM_TEMPLATE_REPO }}
           path: ai-llm-template
+          token: ${{ steps.generate-token.outputs.token }}
 
       - name: Sync to ai-llm-template
         run: $(pwd)/parasol-insurance/.github/workflows/scripts/sync-to-ai-llm-template.sh $(realpath "$(pwd)/parasol-insurance") $(realpath "$(pwd)/ai-llm-template")
@@ -70,3 +79,4 @@ jobs:
           body: "Syncing commit ${{ needs.calculate-refs.outputs.ref }} changes from [${{ github.workflow }} run # ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) to ${{ github.server_url }}/${{ env.LLM_TEMPLATE_REPO }}."
           labels: change-sync
           reviewers: danieloh30
+          token: ${{ steps.generate-token.outputs.token }}

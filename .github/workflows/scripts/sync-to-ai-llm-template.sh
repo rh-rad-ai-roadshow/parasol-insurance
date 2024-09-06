@@ -51,10 +51,6 @@ sync_app() {
   replace_in_file "$app_props_file" "s/^[#]*\s*quarkus.langchain4j.openai.parasol-chat.base-url=.*/quarkus.langchain4j.openai.parasol-chat.base-url=http:\/\/parasol-chat-predictor.aiworkshop.svc.cluster.local:8080\/v1/"
   replace_in_file "$app_props_file" "s/^quarkus.tls.trust-all/# quarkus.tls.trust-all/"
   replace_in_file "$app_props_file" "s/^quarkus.dev-ui.hosts/# quarkus.dev-ui.hosts/"
-#  sed -i '' -r "s/^[#]*\s*quarkus.http.port=.*/quarkus.http.port=\${{values.port}}/" $app_props_file
-#  sed -i '' -r "s/^[#]*\s*quarkus.langchain4j.openai.parasol-chat.base-url=.*/quarkus.langchain4j.openai.parasol-chat.base-url=http:\/\/parasol-chat-predictor.aiworkshop.svc.cluster.local:8080\/v1/" $app_props_file
-#  sed -i '' -r "s/^quarkus.tls.trust-all/# quarkus.tls.trust-all/" $app_props_file
-#  sed -i '' -r "s/^quarkus.dev-ui.hosts/# quarkus.dev-ui.hosts/" $app_props_file
 }
 
 sync_prompt_testing

@@ -49,13 +49,13 @@ jobs:
       - name: Checkout ai-llm-template repo
         uses: actions/checkout@v4
         with:
-          repository: {{ env.LLM_TEMPLATE_REPO }}
+          repository: ${{ env.LLM_TEMPLATE_REPO }}
           path: ai-llm-template
 
       - name: Sync to ai-llm-template
         run: $(pwd)/parasol-insurance/.github/workflows/scripts/sync-to-ai-llm-template.sh $(realpath "$(pwd)/parasol-insurance") $(realpath "$(pwd)/ai-llm-template")
 
-      - name: Create Pull Request in {{ env.LLM_TEMPLATE_REPO }}
+      - name: Create Pull Request in ${{ env.LLM_TEMPLATE_REPO }}
         uses: peter-evans/create-pull-request@v7
         with:
           path: ai-llm-template
@@ -64,6 +64,6 @@ jobs:
           branch-suffix: short-commit-hash
           delete-branch: true
           title: "Sync commit ${{ needs.calculate-refs.outputs.ref }} (from ${{ github.workflow }} run # ${{ github.run_number }})"
-          body: "Syncing commit ${{ needs.calculate-refs.outputs.ref }} changes from [${{ github.workflow }} run # ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) to ${{ github.server_url }}/{{ env.LLM_TEMPLATE_REPO }}."
+          body: "Syncing commit ${{ needs.calculate-refs.outputs.ref }} changes from [${{ github.workflow }} run # ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) to ${{ github.server_url }}/${{ env.LLM_TEMPLATE_REPO }}."
           labels: change-sync
           reviewers: danieloh30

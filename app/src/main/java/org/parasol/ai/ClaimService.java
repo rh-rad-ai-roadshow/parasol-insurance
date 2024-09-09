@@ -31,6 +31,8 @@ public interface ClaimService {
 
         Question: {{query.query}}
     """)
+    // tag::synchronousChat[]
     String chat(ClaimBotQuery query);
+    // end::synchronousChat[]
 //    Multi<String> chat(ClaimBotQuery query);
 }

@@ -1,9 +1,9 @@
 {
     "jest": {
         "nodeEnv": {
-            "PARASOL_MODEL_URL": "http://parasol-chat-trained-predictor.aiworkshop.svc.cluster.local:8080/v1/chat/completions",
+            "PARASOL_MODEL_URL": "http://parasol-chat-predictor.aiworkshop.svc.cluster.local:8080/v1/chat/completions",
             "EMBEDDING_MODEL_URL": "http://parasol-embedding-predictor.aiworkshop.svc.cluster.local:8080/v1",
-            "PARASOL_MODEL_NAME": "parasol-chat-trained"
+            "PARASOL_MODEL_NAME": "parasol-chat"
         },
         "rootPath": "prompt-testing"
     }

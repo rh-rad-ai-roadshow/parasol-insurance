@@ -15,11 +15,22 @@ import dev.langchain4j.agent.tool.Tool;
 
 @ApplicationScoped
 public class NotificationService {
+	// Invalid status to set
 	static final String INVALID_STATUS = "Status \"%s\" is not a valid status";
+
+	// Respond to the AI with success
 	static final String NOTIFICATION_SUCCESS = "%s (claim number %s) has been notified of status update \"%s\"";
+
+	// Respond to the AI with the fact that we couldn't find a claim record for some reason (shouldn't ever happen, but who knows...)
 	static final String NOTIFICATION_NO_CLAIMANT_FOUND = "No claim record found in the database for the given claim";
+
+	// Who the email is from
 	static final String MESSAGE_FROM = "noreply@parasol.com";
+
+	// Email subject
 	static final String MESSAGE_SUBJECT = "Update to your claim";
+
+	// Email body
 	static final String MESSAGE_BODY = """
 		Dear %s,
 		

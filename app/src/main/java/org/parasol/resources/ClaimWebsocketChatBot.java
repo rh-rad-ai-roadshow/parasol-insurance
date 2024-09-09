@@ -38,7 +38,6 @@ public class ClaimWebsocketChatBot {
         return new ClaimBotQueryResponse("token", message, "");
     }
 
-    // tag::synchronousChat[]
     @OnTextMessage
     public ClaimBotQueryResponse onMessage(ClaimBotQuery query) {
         Log.infof("Got chat query: %s", query);
@@ -47,7 +46,6 @@ public class ClaimWebsocketChatBot {
 
         return response;
     }
-    // end::synchronousChat[]
 
 //    @OnTextMessage
 //    public Multi<ClaimBotQueryResponse> onMessage(ClaimBotQuery query) {

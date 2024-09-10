@@ -74,7 +74,7 @@ jobs:
           path: ai-llm-template
           commit-message: "Sync commit ${{ needs.calculate-refs.outputs.ref }} (from ${{ github.workflow }} run # ${{ github.run_number }})"
           branch: 'sync-llm-template/sourceref'
-          branch-suffix: short-commit-hash
+          branch-suffix: timestamp
           delete-branch: true
           title: "Sync commit ${{ needs.calculate-refs.outputs.ref }} (from ${{ github.workflow }} run # ${{ github.run_number }})"
           body: "Syncing commit [${{ needs.calculate-refs.outputs.ref }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ needs.calculate-refs.outputs.ref }}) changes from [${{ github.workflow }} run # ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) to ${{ github.server_url }}/${{ env.LLM_TEMPLATE_REPO }}."

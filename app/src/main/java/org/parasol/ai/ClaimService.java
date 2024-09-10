@@ -19,14 +19,16 @@ public interface ClaimService {
 
         If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.
 
-        Don't make up policy term limits by yourself
+        You must answer in 4 sentences or less.
+
+        Don't make up policy term limits by yourself.
         """
     )
     @UserMessage("""
         Claim ID: {{query.claimId}}
 
         Claim Inception Date: {{query.inceptionDate}}
-        
+
         Claim Summary:
         {{query.claim}}
 

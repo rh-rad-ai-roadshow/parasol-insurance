@@ -17,7 +17,7 @@ module.exports.getProviders = (systemPrompt) => {
        headers: {'Content-Type': 'application/json'},
        body: {
         model: process.env['PARASOL_MODEL_NAME'],
-        max_tokens: 1024,
+        max_tokens: 256,
          messages : [   
            {
              content: systemPrompt,

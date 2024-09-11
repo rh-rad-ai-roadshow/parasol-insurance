@@ -57,8 +57,8 @@ jobs:
           ref: ${{ matrix.target_branch }}
 
       - name: Cherry-pick commit ${{ needs.calculate-refs.outputs.ref }} into ${{ matrix.target_branch }}
-        run: git cherry-pick -x ${{ needs.calculate-refs.outputs.ref }}
-#        run: git cherry-pick -x -n
+#        run: git cherry-pick -x ${{ needs.calculate-refs.outputs.ref }}
+        run: git cherry-pick -x -n ${{ needs.calculate-refs.outputs.ref }}
 
       - name: Create Pull Request targeting ${{ matrix.target_branch }} branch
         uses: peter-evans/create-pull-request@v7
@@ -73,3 +73,13 @@ jobs:
             danieloh30
             edeandrea
             jamesfalkner
+          add-paths: |
+            .github/.spellcheck.yaml
+            .github/.wordlist.txt
+            .vscode/**
+            prompt-testing/**
+            app/**
+            .gitignore
+            LICENSE
+            README.md
+            .devfile.yaml

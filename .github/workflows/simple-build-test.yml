@@ -9,6 +9,7 @@ on:
     paths-ignore:
       - '**/*.md'
       - '.github/dependabot.yml'
+      - '.github/workflows/container-build.yml'
       - '.github/workflows/simple-build-test.yml'
       - '.github/workflows/dependabot-automerge.yml'
       - '.github/workflows/sync-main-to-other-branches.yml'
@@ -21,6 +22,7 @@ on:
     paths-ignore:
       - '**/*.md'
       - '.github/dependabot.yml'
+      - '.github/workflows/container-build.yml'
       - '.github/workflows/simple-build-test.yml'
       - '.github/workflows/dependabot-automerge.yml'
       - '.github/workflows/sync-main-to-other-branches.yml'

@@ -9,7 +9,10 @@ on:
     paths-ignore:
       - '**/*.md'
       - '.github/dependabot.yml'
+      - '.github/workflows/simple-build-test.yml'
       - '.github/workflows/dependabot-automerge.yml'
+      - '.github/workflows/sync-main-to-other-branches.yml'
+      - '.github/workflows/sync-to-ai-llm-template.yml'
   pull_request:
     branches:
       - main
@@ -18,7 +21,10 @@ on:
     paths-ignore:
       - '**/*.md'
       - '.github/dependabot.yml'
+      - '.github/workflows/simple-build-test.yml'
       - '.github/workflows/dependabot-automerge.yml'
+      - '.github/workflows/sync-main-to-other-branches.yml'
+      - '.github/workflows/sync-to-ai-llm-template.yml'
   workflow_dispatch:
 
 concurrency:

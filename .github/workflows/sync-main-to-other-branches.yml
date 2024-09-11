@@ -1,0 +1,75 @@
+# This workflow automatically syncs changes from the main branch to other branches
+# (i.e. email-feature-branch, private-docs-rag-solution)
+# Update the BRANCHES_TO_UPDATE environment variable to include any branches where the sync should push to
+
+name: Sync main to other branches
+
+env:
+  BRANCHES_TO_UPDATE: ["email-feature-branch", "private-docs-rag-solution"]
+
+on:
+  workflow_run:
+    workflows:
+      - "Simple build and test"
+    branches:
+      - main
+    types:
+      - completed
+  workflow_dispatch:
+
+concurrency:
+  group: "workflow = ${{ github.workflow }}, ref = ${{ github.event.workflow_run.head_branch || github.event.ref || github.ref }}"
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  calculate-refs:
+    if: ((github.event_name == 'workflow_dispatch') || ((github.event_name == 'workflow_run') && ((github.event.workflow_run.event == 'push') || (github.event.workflow_run.event == 'workflow_dispatch')) && (github.event.workflow_run.conclusion == 'success'))) && ((github.repository == 'rh-rad-ai-roadshow/parasol-insurance') && ((github.event.workflow_run.head_branch == 'main')))
+    runs-on: ubuntu-latest
+    outputs:
+      ref: ${{ steps.calculate_branch.outputs.ref}}
+    steps:
+      - name: Calculate Branch
+        id: calculate_branch
+        run: |
+          if [[ ${{ github.event_name }} == 'workflow_run' ]]; then
+            echo "ref=${{ github.event.workflow_run.head_commit.id }}" >> $GITHUB_OUTPUT
+          elif [[ ${{ github.event_name}} == 'workflow_dispatch' ]]; then
+            echo "ref=${{ github.sha }}" >> $GITHUB_OUTPUT
+          fi
+
+  sync-to-branches:
+    if: ((github.event_name == 'workflow_dispatch') || ((github.event_name == 'workflow_run') && ((github.event.workflow_run.event == 'push') || (github.event.workflow_run.event == 'workflow_dispatch')) && (github.event.workflow_run.conclusion == 'success'))) && ((github.repository == 'rh-rad-ai-roadshow/parasol-insurance') && ((github.event.workflow_run.head_branch == 'main')))
+    needs: calculate-refs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        target_branch: ${{ fromJSON(env.BRANCHES_TO_UPDATE) }}
+    name: Sync commit ${{ needs.calculate-refs.outputs.ref }} to ${{ matrix.target_branch }}
+    steps:
+      - name: Checkout ${{ matrix.target_branch }} branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.target_branch }}
+
+      - name: Cherry-pick commit ${{ needs.calculate-refs.outputs.ref }} into ${{ matrix.target_branch }}
+        run: git cherry-pick -x ${{ needs.calculate-refs.outputs.ref }}
+#        run: git cherry-pick -x -n
+
+      - name: Create Pull Request targeting ${{ matrix.target_branch }} branch
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "Sync commit ${{ needs.calculate-refs.outputs.ref }} (from ${{ github.workflow }} run # ${{ github.run_number }})"
+          branch: sync-commit-to-${{ matrix.target_branch }}
+          delete-branch: true
+          title: "Sync commit ${{ needs.calculate-refs.outputs.ref }} (from ${{ github.workflow }} run # ${{ github.run_number }})"
+          body: "Syncing commit [${{ needs.calculate-refs.outputs.ref }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ needs.calculate-refs.outputs.ref }}) changes from [${{ github.workflow }} run # ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) to ${{ github.server_url }}/${{ env.LLM_TEMPLATE_REPO }}."
+          labels: change-sync
+          reviewers: |
+            danieloh30
+            edeandrea
+            jamesfalkner

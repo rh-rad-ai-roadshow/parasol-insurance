@@ -78,6 +78,7 @@ jobs:
       - name: Cherry-pick commit ${{ needs.calculate-refs.outputs.ref }} into ${{ matrix.target_branch }}
         run: |
           git config advice.mergeConflict false &&
+          git fetch &&
           git cherry-pick -x -n --allow-empty --allow-empty-message --empty=drop --strategy ort --strategy-option ignore-space-change ${{ needs.calculate-refs.outputs.ref }}
 
       - name: Create Pull Request targeting ${{ matrix.target_branch }} branch

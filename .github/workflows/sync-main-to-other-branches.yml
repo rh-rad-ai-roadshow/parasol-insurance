@@ -75,6 +75,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ matrix.target_branch }}
+          fetch-depth: 0
 
       # The entire commit will be cherry picked on top of the branch
       # But not everything will be part of the PR
@@ -82,7 +83,6 @@ jobs:
       - name: Cherry-pick commit ${{ needs.calculate-refs.outputs.ref }} into ${{ matrix.target_branch }}
         run: |
           git config advice.mergeConflict false &&
-          git fetch &&
           git cherry-pick -x -n --allow-empty --allow-empty-message --empty=drop --strategy ort --strategy-option ignore-space-change ${{ needs.calculate-refs.outputs.ref }}
 
       - name: Create Pull Request targeting ${{ matrix.target_branch }} branch
@@ -91,7 +91,8 @@ jobs:
         with:
           base: ${{ matrix.target_branch }}
           commit-message: "Sync commit ${{ needs.calculate-refs.outputs.ref }} (from ${{ github.workflow }} run # ${{ github.run_number }})"
-          branch: sync-commit-to-${{ matrix.target_branch }}
+          branch: sync-commit/{{ matrix.target_branch }}
+          branch-suffix: timestamp
           delete-branch: true
           title: "Sync commit ${{ needs.calculate-refs.outputs.ref }} (from ${{ github.workflow }} run # ${{ github.run_number }})"
           body: "Syncing commit [${{ needs.calculate-refs.outputs.ref }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ needs.calculate-refs.outputs.ref }}) changes from [${{ github.workflow }} run # ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) to ${{ github.server_url }}/${{ env.LLM_TEMPLATE_REPO }}."

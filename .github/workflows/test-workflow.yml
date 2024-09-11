@@ -11,12 +11,22 @@ defaults:
     shell: bash
 
 jobs:
+  create-branches-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      BRANCHES_TO_UPDATE: ${{ steps.calculate-branches-to-update.outputs.BRANCHES_TO_UPDATE }}
+    steps:
+      - name: Calculate branches to update
+        id: calculate-branches-to-update
+        run: echo "${{ env.BRANCHES_TO_UPDATE }}" >> $GITHUB_OUTPUT
+
   echo-branch:
+    needs: create-branches-matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
-        target_branch: ${{ fromJSON(env.BRANCHES_TO_UPDATE) }}
+        target_branch: ${{ fromJSON(needs.create-branches-matrix.outputs.BRANCHES_TO_UPDATE) }}
     name: Echo branch ${{ matrix.target_branch }}
     steps:
       - run: echo "Target branch = ${{ matrix.target_branch }}"

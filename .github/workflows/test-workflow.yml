@@ -1,0 +1,22 @@
+name: Test workflow
+
+on:
+  workflow_dispatch:
+
+env:
+  BRANCHES_TO_UPDATE: "['email-feature-branch','private-docs-rag-solution']"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  echo-branch:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        target_branch: ${{ fromJSON(env.BRANCHES_TO_UPDATE) }}
+    name: Echo branch ${{ matrix.target_branch }}
+    steps:
+      - run: echo "Target branch = ${{ matrix.target_branch }}"

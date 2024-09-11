@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Calculate branches to update
         id: calculate-branches-to-update
-        run: echo "${{ env.BRANCHES_TO_UPDATE }}" >> $GITHUB_OUTPUT
+        run: echo "BRANCHES_TO_UPDATE=${{ env.BRANCHES_TO_UPDATE }}" >> $GITHUB_OUTPUT
 
   echo-branch:
     needs: create-branches-matrix

@@ -1,11 +1,15 @@
 # This workflow automatically syncs changes from the main branch to other branches
 # (i.e. email-feature-branch, private-docs-rag-solution)
 # Update the BRANCHES_TO_UPDATE environment variable to include any branches where the sync should push to
+#
+# Not everything in a commit will be synced.
+# There are things on main that don't belong on other branches
+# See the add-paths attribute in the create-pr step to customize what gets synced
 
 name: Sync main to other branches
 
 env:
-  BRANCHES_TO_UPDATE: ["email-feature-branch", "private-docs-rag-solution"]
+  BRANCHES_TO_UPDATE: "email-feature-branch,private-docs-rag-solution"
 
 on:
   workflow_run:
@@ -48,7 +52,8 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        target_branch: ${{ fromJSON(env.BRANCHES_TO_UPDATE) }}
+        target_branch: [${{ env.BRANCHES_TO_UPDATE }}]
+#        target_branch: ${{ fromJSON(env.BRANCHES_TO_UPDATE) }}
     name: Sync commit ${{ needs.calculate-refs.outputs.ref }} to ${{ matrix.target_branch }}
     steps:
       - name: Checkout ${{ matrix.target_branch }} branch
@@ -56,13 +61,18 @@ jobs:
         with:
           ref: ${{ matrix.target_branch }}
 
+      # The entire commit will be cherry picked on top of the branch
+      # But not everything will be part of the PR
+      # See the add-paths attribute in the create-pr step to customize what gets synced
       - name: Cherry-pick commit ${{ needs.calculate-refs.outputs.ref }} into ${{ matrix.target_branch }}
 #        run: git cherry-pick -x ${{ needs.calculate-refs.outputs.ref }}
         run: git cherry-pick -x -n ${{ needs.calculate-refs.outputs.ref }}
 
       - name: Create Pull Request targeting ${{ matrix.target_branch }} branch
+        id: create-pr
         uses: peter-evans/create-pull-request@v7
         with:
+          base: ${{ matrix.target_branch }}
           commit-message: "Sync commit ${{ needs.calculate-refs.outputs.ref }} (from ${{ github.workflow }} run # ${{ github.run_number }})"
           branch: sync-commit-to-${{ matrix.target_branch }}
           delete-branch: true

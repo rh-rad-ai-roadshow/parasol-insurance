@@ -76,8 +76,9 @@ jobs:
       # But not everything will be part of the PR
       # See the add-paths attribute in the create-pr step to customize what gets synced
       - name: Cherry-pick commit ${{ needs.calculate-refs.outputs.ref }} into ${{ matrix.target_branch }}
-#        run: git cherry-pick -x ${{ needs.calculate-refs.outputs.ref }}
-        run: git cherry-pick -x -n ${{ needs.calculate-refs.outputs.ref }}
+        run: |
+          git config advice.mergeConflict false &&
+          git cherry-pick -x -n --allow-empty --allow-empty-message --empty=drop --strategy ort --strategy-option ignore-space-change ${{ needs.calculate-refs.outputs.ref }}
 
       - name: Create Pull Request targeting ${{ matrix.target_branch }} branch
         id: create-pr

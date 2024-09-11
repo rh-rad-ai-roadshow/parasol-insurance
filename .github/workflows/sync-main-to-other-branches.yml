@@ -61,11 +61,15 @@ jobs:
       - calculate-refs
       - create-branches-matrix
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
+      pull-requests: write
     strategy:
       fail-fast: true
       matrix:
         target_branch: ${{ fromJSON(needs.create-branches-matrix.outputs.branches-to-update) }}
-    name: Sync commit ${{ needs.calculate-refs.outputs.ref }} to ${{ matrix.target_branch }}
+    name: Sync to ${{ matrix.target_branch }} branch
     steps:
       - name: Checkout ${{ matrix.target_branch }} branch
         uses: actions/checkout@v4

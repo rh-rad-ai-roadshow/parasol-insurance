@@ -9,7 +9,10 @@
 name: Sync main to other branches
 
 env:
-  BRANCHES_TO_UPDATE: "email-feature-branch,private-docs-rag-solution"
+  BRANCHES_TO_UPDATE: [
+    "email-feature-branch",
+    "private-docs-rag-solution"
+  ]
 
 on:
   workflow_run:
@@ -52,7 +55,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        target_branch: [${{ env.BRANCHES_TO_UPDATE }}]
+        target_branch: "${{ fromJSON(env.BRANCHES_TO_UPDATE) }}"
     name: Sync commit ${{ needs.calculate-refs.outputs.ref }} to ${{ matrix.target_branch }}
     steps:
       - name: Checkout ${{ matrix.target_branch }} branch

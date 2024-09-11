@@ -27,14 +27,17 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       ref: ${{ steps.calculate_branch.outputs.ref}}
+      message: ${{ steps.calculate_branch.outputs.message }}
     steps:
       - name: Calculate Branch
         id: calculate_branch
         run: |
           if [[ ${{ github.event_name }} == 'workflow_run' ]]; then
             echo "ref=${{ github.event.workflow_run.head_commit.id }}" >> $GITHUB_OUTPUT
+            echo "message=${{ github.event.workflow_run.head_commit.message }}" >> $GITHUB_OUTPUT
           elif [[ ${{ github.event_name}} == 'workflow_dispatch' ]]; then
             echo "ref=${{ github.sha }}" >> $GITHUB_OUTPUT
+            echo "message=$(git log -1 --pretty=%B | head)" >> $GITHUB_OUTPUT
           fi
 
   sync:
@@ -72,11 +75,18 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           path: ai-llm-template
-          commit-message: "Sync commit ${{ needs.calculate-refs.outputs.ref }} (from ${{ github.workflow }} run # ${{ github.run_number }})"
+          commit-message: ${{ needs.calculate-refs.outputs.message }}
           branch: sync-llm-template
           delete-branch: true
           title: "Sync commit ${{ needs.calculate-refs.outputs.ref }} (from ${{ github.workflow }} run # ${{ github.run_number }})"
-          body: "Syncing commit [${{ needs.calculate-refs.outputs.ref }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ needs.calculate-refs.outputs.ref }}) changes from [${{ github.workflow }} run # ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) to ${{ github.server_url }}/${{ env.LLM_TEMPLATE_REPO }}."
+          body: |
+            Syncing commit [${{ needs.calculate-refs.outputs.ref }}](${{ github.server_url }}/${{ github.repository }}/commit/${{ needs.calculate-refs.outputs.ref }}) changes from [${{ github.workflow }} run # ${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) to ${{ github.server_url }}/${{ env.LLM_TEMPLATE_REPO }}.
+            
+            Original commit message:
+            
+            ```
+            ${{ needs.calculate-refs.outputs.message }}
+            ```
           labels: change-sync
           reviewers: danieloh30
           token: ${{ steps.generate-token.outputs.token }}

@@ -45,7 +45,7 @@ jobs:
             echo "message=${{ github.event.workflow_run.head_commit.message }}" >> $GITHUB_OUTPUT
           elif [[ ${{ github.event_name}} == 'workflow_dispatch' ]]; then
             echo "ref=${{ github.sha }}" >> $GITHUB_OUTPUT
-            echo "message=$(git log -1 --pretty=%B | head -n 1)" >> $GITHUB_OUTPUT
+            echo "message=$(git log -1 --pretty=%B | head)" >> $GITHUB_OUTPUT
           fi
 
   create-branches-matrix:

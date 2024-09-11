@@ -9,10 +9,7 @@
 name: Sync main to other branches
 
 env:
-  BRANCHES_TO_UPDATE: [
-    "email-feature-branch",
-    "private-docs-rag-solution"
-  ]
+  BRANCHES_TO_UPDATE: "['email-feature-branch','private-docs-rag-solution']"
 
 on:
   workflow_run:
@@ -48,14 +45,26 @@ jobs:
             echo "ref=${{ github.sha }}" >> $GITHUB_OUTPUT
           fi
 
+  create-branches-matrix:
+    if: ((github.event_name == 'workflow_dispatch') || ((github.event_name == 'workflow_run') && ((github.event.workflow_run.event == 'push') || (github.event.workflow_run.event == 'workflow_dispatch')) && (github.event.workflow_run.conclusion == 'success'))) && ((github.repository == 'rh-rad-ai-roadshow/parasol-insurance') && ((github.event.workflow_run.head_branch == 'main')))
+    runs-on: ubuntu-latest
+    outputs:
+      branches-to-update: ${{ steps.calculate-branches-to-update.outputs.branches-to-update }}
+    steps:
+      - name: Calculate branches to update
+        id: calculate-branches-to-update
+        run: echo "branches-to-update=${{ env.BRANCHES_TO_UPDATE }}" >> $GITHUB_OUTPUT
+
   sync-to-branches:
     if: ((github.event_name == 'workflow_dispatch') || ((github.event_name == 'workflow_run') && ((github.event.workflow_run.event == 'push') || (github.event.workflow_run.event == 'workflow_dispatch')) && (github.event.workflow_run.conclusion == 'success'))) && ((github.repository == 'rh-rad-ai-roadshow/parasol-insurance') && ((github.event.workflow_run.head_branch == 'main')))
-    needs: calculate-refs
+    needs:
+      - calculate-refs
+      - create-branches-matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
-        target_branch: "${{ fromJSON(env.BRANCHES_TO_UPDATE) }}"
+        target_branch: ${{ fromJSON(needs.create-branches-matrix.outputs.branches-to-update) }}
     name: Sync commit ${{ needs.calculate-refs.outputs.ref }} to ${{ matrix.target_branch }}
     steps:
       - name: Checkout ${{ matrix.target_branch }} branch

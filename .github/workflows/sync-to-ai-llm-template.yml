@@ -34,16 +34,10 @@ jobs:
         run: |
           if [[ ${{ github.event_name }} == 'workflow_run' ]]; then
             echo "ref=${{ github.event.workflow_run.head_commit.id }}" >> $GITHUB_OUTPUT
-            
-            echo 'message<<EOF' >> $GITHUB_OUTPUT
-            echo ${{ github.event.workflow_run.head_commit.message }} >> $GITHUB_OUTPUT
-            echo 'EOF' >> $GITHUB_OUTPUT
+            echo "message<<EOF"$'\n'"${{ github.event.workflow_run.head_commit.message }}"$'\n'EOF >> $GITHUB_OUTPUT
           elif [[ ${{ github.event_name}} == 'workflow_dispatch' ]]; then
             echo "ref=${{ github.sha }}" >> $GITHUB_OUTPUT
-            
-            echo 'message<<EOF' >> $GITHUB_OUTPUT
-            echo $(git log -1 --pretty=%B | head) >> $GITHUB_OUTPUT
-            echo 'EOF' >> $GITHUB_OUTPUT
+            echo "message<<EOF"$'\n'"$(git log -1 --pretty=%B | head)"$'\n'EOF >> $GITHUB_OUTPUT
           fi
 
   sync:

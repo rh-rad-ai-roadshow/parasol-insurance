@@ -47,7 +47,7 @@ const EmailGenerate: React.FunctionComponent = () => {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
 
-        <Form onSubmit={handleSubmit} style={{ width: '800px', textAlign: 'center' }}> 
+        <Form onSubmit={handleSubmit} style={{ width: '800px', textAlign: 'center' }}>
         <FormGroup label="Parasol Email Generator service. Please copy and paste the initial customer email and click Submit" fieldId="text-area">
           <TextArea
             onChange={(value) => setText(value.target.value)}

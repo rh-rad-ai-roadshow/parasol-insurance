@@ -116,10 +116,6 @@ jobs:
             ${{ needs.calculate-refs.outputs.message }}
             ```
           labels: change-sync
-          reviewers: |
-            danieloh30
-            edeandrea
-            jamesfalkner
           add-paths: |
             .github/.spellcheck.yaml
             .github/.wordlist.txt

@@ -130,3 +130,9 @@ jobs:
             LICENSE
             README.md
             .devfile.yaml
+
+      - name: Merge PR when all checks pass
+        if: ((steps.create-pr.outputs.pull-request-operation == 'created') || (steps.create-pr.outputs.pull-request-operation == 'updated')) && (steps.create-pr.outputs.pull-request-number)
+        run: |
+          echo "${{ steps.generate-token.outputs.token }}" | gh auth login --with-token
+          gh pr merge --squash --auto --delete-branch ${{ steps.create-pr.outputs.pull-request-number }}

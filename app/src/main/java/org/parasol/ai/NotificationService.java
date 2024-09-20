@@ -12,6 +12,8 @@ import io.quarkus.mailer.Mail;
 import io.quarkus.mailer.Mailer;
 
 import dev.langchain4j.agent.tool.Tool;
+import io.opentelemetry.instrumentation.annotations.SpanAttribute;
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 
 @ApplicationScoped
 public class NotificationService {
@@ -50,7 +52,8 @@ public class NotificationService {
 
 	@Tool("update claim status")
 	@Transactional
-	public String updateClaimStatus(long claimId, String status) {
+	@WithSpan("NotificationService.updateClaimStatus")
+	public String updateClaimStatus(@SpanAttribute("arg.claimId") long claimId, @SpanAttribute("arg.status") String status) {
 		// Only want to actually do anything if the passed in status has at lease 3 characters
 		return Optional.ofNullable(status)
 			.filter(s -> s.trim().length() > 2)

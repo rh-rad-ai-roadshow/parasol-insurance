@@ -81,6 +81,18 @@
       <artifactId>quarkus-mailpit</artifactId>
       <version>${quarkus.mailpit.version}</version>
     </dependency>
+	  <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-info</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-opentelemetry</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.opentelemetry.instrumentation</groupId>
+      <artifactId>opentelemetry-jdbc</artifactId>
+    </dependency>
     <dependency>
       <groupId>io.quarkiverse.langchain4j</groupId>
       <artifactId>quarkus-langchain4j-easy-rag</artifactId>

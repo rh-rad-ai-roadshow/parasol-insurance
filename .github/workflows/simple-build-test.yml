@@ -61,4 +61,5 @@ jobs:
             -Dquarkus.test.profile=ollama,test \
             -Dquarkus.test.integration-test-profile=ollama,prod \
             -Dquarkus.http.host=0.0.0.0 \
+            -Dquarkus.class-loading.parent-first-artifacts=ai.djl.huggingface:tokenizers \
             -Dmaven.compiler.release=${{ matrix.java }}

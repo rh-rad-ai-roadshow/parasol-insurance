@@ -10,7 +10,7 @@
     <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <quarkus.langchain4j.version>0.18.0</quarkus.langchain4j.version>
+    <quarkus.langchain4j.version>0.19.0</quarkus.langchain4j.version>
     <quarkus.mailpit.version>1.2.2</quarkus.mailpit.version>
     <quarkus.playwright.version>1.0.0</quarkus.playwright.version>
     <quarkus.quinoa.version>2.4.9</quarkus.quinoa.version>
@@ -198,6 +198,7 @@
           </execution>
         </executions>
         <configuration>
+          <reuseForks>false</reuseForks>
           <systemPropertyVariables>
             <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
             <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>

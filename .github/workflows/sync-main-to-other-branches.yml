@@ -69,7 +69,7 @@ jobs:
       contents: write
       pull-requests: write
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         target_branch: ${{ fromJSON(needs.create-branches-matrix.outputs.branches-to-update) }}
     name: Sync to ${{ matrix.target_branch }} branch

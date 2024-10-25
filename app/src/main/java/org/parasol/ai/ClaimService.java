@@ -26,7 +26,7 @@ public interface ClaimService {
     @UserMessage("""
         Claim ID: {{query.claimId}}
 
-        Claim Inception Date: {{query.inceptionDate}}
+        Policy Inception Date: {{query.inceptionDate}}
 
         Claim Summary:
         {{query.claim}}

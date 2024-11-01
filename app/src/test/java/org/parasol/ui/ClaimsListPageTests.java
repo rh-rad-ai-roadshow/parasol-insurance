@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.parasol.model.Claim;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
@@ -52,6 +53,7 @@ public class ClaimsListPageTests extends PlaywrightTests {
 			.isNotNull()
 			.hasSize(NB_CLAIMS);
 
+		var claim = Claim.<Claim>findById(1L);
 		var firstRow = rows.get(0).getByRole(AriaRole.GRIDCELL).all();
 		assertThat(firstRow)
 			.isNotNull()
@@ -64,29 +66,29 @@ public class ClaimsListPageTests extends PlaywrightTests {
 				l -> l.getByRole(AriaRole.LINK).getAttribute("href")
 			)
 			.containsExactly(
-				"CLM195501",
-				"/ClaimDetail/1".formatted(this.quarkusPort)
+				claim.claimNumber,
+				"/ClaimDetail/%d".formatted(claim.id)
 			);
 
 		assertThat(firstRow.get(1))
 			.isNotNull()
 			.extracting(Locator::textContent)
-			.isEqualTo("Multiple vehicle");
+			.isEqualTo(claim.category);
 
 		assertThat(firstRow.get(2))
 			.isNotNull()
 			.extracting(Locator::textContent)
-			.isEqualTo("Marty McFly");
+			.isEqualTo(claim.clientName);
 
 		assertThat(firstRow.get(3))
 			.isNotNull()
 			.extracting(Locator::textContent)
-			.isEqualTo("AC-987654321");
+			.isEqualTo(claim.policyNumber);
 
 		assertThat(firstRow.get(4))
 			.isNotNull()
 			.extracting(Locator::textContent)
-			.isEqualTo("In Process");
+			.isEqualTo(claim.status);
 	}
 
 	private List<Locator> getTableBodyRows(Locator table) {

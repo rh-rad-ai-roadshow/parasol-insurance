@@ -1,7 +1,5 @@
 #!/bin/bash
 
-sdk install java 21.0.5-tem
-
 cd /home/instruct/parasol-insurance/app/
 ./mvnw clean package -DskipTests
 

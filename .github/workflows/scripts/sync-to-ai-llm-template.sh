@@ -63,7 +63,7 @@ sync_app() {
   replace_in_file "$app_props_file" "s/^quarkus.tls.trust-all/# quarkus.tls.trust-all/"
   replace_in_file "$app_props_file" "s/^quarkus.dev-ui.hosts=.*/quarkus.dev-ui.hosts=\${{values.owner}}-parasol-insurance-quarkus-devui\${{values.cluster}}/"
   replace_in_file "$app_props_file" "s/^quarkus.otel.enabled=.*/quarkus.otel.enabled=true/"
-  replace_in_file "$app_props_file" "s/^quarkus.otel.exporter.otlp.traces.endpoint=.*/quarkus.otel.exporter.otlp.traces.endpoint=http:\/\/otel-collector:4317/"
+  replace_in_file "$app_props_file" "s/^quarkus.otel.exporter.otlp.traces.endpoint=.*/quarkus.otel.exporter.otlp.traces.endpoint=http:\/\/otel-collector.parasol-app-\${{values.owner}}-dev.svc.cluster.local:4317/"
 }
 
 sync_prompt_testing

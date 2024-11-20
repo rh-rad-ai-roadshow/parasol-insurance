@@ -19,6 +19,7 @@
     <quarkus.platform.version>3.16.4</quarkus.platform.version>
     <skipITs>true</skipITs>
     <surefire-plugin.version>3.5.2</surefire-plugin.version>
+    <jlama.version>0.8.2</jlama.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -47,6 +48,7 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-rest-jackson</artifactId>
     </dependency>
+
     <dependency>
       <groupId>io.quarkiverse.langchain4j</groupId>
       <artifactId>quarkus-langchain4j-openai</artifactId>
@@ -55,6 +57,23 @@
       <groupId>io.quarkiverse.langchain4j</groupId>
       <artifactId>quarkus-langchain4j-ollama</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>io.quarkiverse.langchain4j</groupId>
+      <artifactId>quarkus-langchain4j-jlama</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.github.tjake</groupId>
+      <artifactId>jlama-core</artifactId>
+      <version>${jlama.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.tjake</groupId>
+      <artifactId>jlama-native</artifactId>
+      <version>${jlama.version}</version>
+      <classifier>${os.detected.name}-${os.detected.arch}</classifier>
+    </dependency>
+
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-websockets-next</artifactId>
@@ -129,6 +148,13 @@
     </dependency>
   </dependencies>
   <build>
+    <extensions>
+      <extension>
+        <groupId>kr.motd.maven</groupId>
+        <artifactId>os-maven-plugin</artifactId>
+        <version>1.7.0</version>
+      </extension>
+    </extensions>
     <plugins>
       <plugin>
         <groupId>${quarkus.platform.group-id}</groupId>
@@ -144,6 +170,12 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <jvmArgs>--enable-preview --enable-native-access=ALL-UNNAMED</jvmArgs>
+          <modules>
+            <module>jdk.incubator.vector</module>
+          </modules>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

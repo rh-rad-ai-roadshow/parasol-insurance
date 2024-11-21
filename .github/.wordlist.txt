@@ -126,6 +126,7 @@ InstructLab
 instructlab
 io
 ipynb
+Jlama
 jpg
 js
 json
@@ -133,6 +134,7 @@ jsonpath
 jupyter
 Jupyter
 JupyterLab
+JVM
 kubectl
 kubernetes
 linter

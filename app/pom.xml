@@ -71,7 +71,7 @@
       <groupId>com.github.tjake</groupId>
       <artifactId>jlama-native</artifactId>
       <version>${jlama.version}</version>
-      <classifier>${os.detected.name}-${os.detected.arch}</classifier>
+      <classifier>${os.detected.classifier}</classifier>
     </dependency>
 
     <dependency>
@@ -194,6 +194,7 @@
           <systemPropertyVariables>
             <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
             <maven.home>${maven.home}</maven.home>
+            <os.detected.classifier>${os.detected.classifier}</os.detected.classifier>
           </systemPropertyVariables>
           <environmentVariables>
             <BACKEND_API_URL>http://localhost:8081/api</BACKEND_API_URL>

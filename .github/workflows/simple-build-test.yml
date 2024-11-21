@@ -64,8 +64,6 @@ jobs:
         working-directory: app
         run: |
           ./mvnw -B clean verify \
-            -Dquarkus.profile=${{ matrix.ai-provider }} \
-            -Dquarkus.test.profile=${{ matrix.ai-provider }},test \
-            -Dquarkus.test.integration-test-profile=${{ matrix.ai-provider }},prod \
+            -P${{ matrix.ai-provider }} \
             -Dquarkus.http.host=0.0.0.0 \
             -Dmaven.compiler.release=${{ matrix.java }}

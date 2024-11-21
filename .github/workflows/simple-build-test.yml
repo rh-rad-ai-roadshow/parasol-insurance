@@ -67,6 +67,5 @@ jobs:
             -Dquarkus.profile=${{ matrix.ai-provider }} \
             -Dquarkus.test.profile=${{ matrix.ai-provider }},test \
             -Dquarkus.test.integration-test-profile=${{ matrix.ai-provider }},prod \
-            -Dquarkus.langchain4j.jlama.parasol-chat.chat-model.model-name=mariofusco/parasol-trained-chat-JQ4 \
             -Dquarkus.http.host=0.0.0.0 \
             -Dmaven.compiler.release=${{ matrix.java }}

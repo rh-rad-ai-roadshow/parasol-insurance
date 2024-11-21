@@ -1,5 +1,6 @@
 package org.parasol.resources;
 
+import io.smallrye.common.annotation.Blocking;
 import org.parasol.ai.ClaimService;
 import org.parasol.model.ClaimBotQuery;
 import org.parasol.model.ClaimBotQueryResponse;
@@ -43,6 +44,7 @@ public class ClaimWebsocketChatBot {
 
     @OnTextMessage
     @WithSpan("ChatMessage")
+    @Blocking
     public Multi<ClaimBotQueryResponse> onMessage(ClaimBotQuery query) {
         Log.infof("Got chat query: %s", query);
 

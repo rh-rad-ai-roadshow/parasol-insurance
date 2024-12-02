@@ -33,12 +33,15 @@ jobs:
       matrix:
         java:
           - '21'
+        ai-provider:
+          - ollama
+          - jlama
     services:
       ollama:
         image: ollama/ollama
         ports:
           - 11434:11434
-    name: "jvm-build-test-${{ matrix.java }}"
+    name: "jvm-build-test-${{ matrix.java }}-${{ matrix.ai-provider }}"
     steps:
       - uses: actions/checkout@v4
 
@@ -49,12 +52,10 @@ jobs:
           distribution: temurin
           cache: maven
 
-      - name: "build-test-jvm-java${{ matrix.java }}"
+      - name: "build-test-jvm-java${{ matrix.java }}-${{ matrix.ai-provider }}"
         working-directory: app
         run: |
           ./mvnw -B clean verify \
-            -Dquarkus.profile=ollama \
-            -Dquarkus.test.profile=ollama,test \
-            -Dquarkus.test.integration-test-profile=ollama,prod \
+            -P${{ matrix.ai-provider }} \
             -Dquarkus.http.host=0.0.0.0 \
             -Dmaven.compiler.release=${{ matrix.java }}

@@ -13,6 +13,7 @@ import io.quarkus.websockets.next.WebSocket;
 import io.quarkus.websockets.next.WebSocketConnection;
 
 import io.opentelemetry.instrumentation.annotations.WithSpan;
+import io.smallrye.common.annotation.Blocking;
 import io.smallrye.mutiny.Multi;
 
 @WebSocket(path = "/ws/query")
@@ -43,6 +44,7 @@ public class ClaimWebsocketChatBot {
 
     @OnTextMessage
     @WithSpan("ChatMessage")
+    @Blocking
     public Multi<ClaimBotQueryResponse> onMessage(ClaimBotQuery query) {
         Log.infof("Got chat query: %s", query);
 

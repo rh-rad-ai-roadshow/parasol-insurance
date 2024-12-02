@@ -11,7 +11,7 @@
     <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <quarkus.langchain4j.version>0.21.0</quarkus.langchain4j.version>
+    <quarkus.langchain4j.version>0.22.0</quarkus.langchain4j.version>
     <quarkus.playwright.version>2.0.0</quarkus.playwright.version>
     <quarkus.quinoa.version>2.5.0</quarkus.quinoa.version>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
@@ -19,6 +19,7 @@
     <quarkus.platform.version>3.17.2</quarkus.platform.version>
     <skipITs>true</skipITs>
     <surefire-plugin.version>3.5.2</surefire-plugin.version>
+    <jlama.version>0.8.2</jlama.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -47,14 +48,12 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-rest-jackson</artifactId>
     </dependency>
+
     <dependency>
       <groupId>io.quarkiverse.langchain4j</groupId>
       <artifactId>quarkus-langchain4j-openai</artifactId>
     </dependency>
-    <dependency>
-      <groupId>io.quarkiverse.langchain4j</groupId>
-      <artifactId>quarkus-langchain4j-ollama</artifactId>
-    </dependency>
+
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-websockets-next</artifactId>
@@ -129,6 +128,13 @@
     </dependency>
   </dependencies>
   <build>
+    <extensions>
+      <extension>
+        <groupId>kr.motd.maven</groupId>
+        <artifactId>os-maven-plugin</artifactId>
+        <version>1.7.1</version>
+      </extension>
+    </extensions>
     <plugins>
       <plugin>
         <groupId>${quarkus.platform.group-id}</groupId>
@@ -203,6 +209,117 @@
         <skipITs>false</skipITs>
         <quarkus.package.type>native</quarkus.package.type>
       </properties>
+    </profile>
+    <profile>
+      <id>ollama</id>
+      <activation>
+        <property>
+          <name>ollama</name>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>io.quarkiverse.langchain4j</groupId>
+          <artifactId>quarkus-langchain4j-ollama</artifactId>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>${quarkus.platform.group-id}</groupId>
+            <artifactId>quarkus-maven-plugin</artifactId>
+            <configuration>
+              <systemProperties>
+                <quarkus.profile>ollama,prod</quarkus.profile>
+              </systemProperties>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <systemPropertyVariables>
+                <quarkus.profile>ollama</quarkus.profile>
+                <quarkus.test.profile>ollama,test</quarkus.test.profile>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <systemPropertyVariables>
+                <quarkus.profile>ollama</quarkus.profile>
+                <quarkus.test.profile>ollama,test</quarkus.test.profile>
+                <quarkus.test.integration-test-profile>ollama,prod</quarkus.test.integration-test-profile>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>jlama</id>
+      <activation>
+        <property>
+          <name>jlama</name>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>io.quarkiverse.langchain4j</groupId>
+          <artifactId>quarkus-langchain4j-jlama</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>com.github.tjake</groupId>
+          <artifactId>jlama-core</artifactId>
+          <version>${jlama.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>com.github.tjake</groupId>
+          <artifactId>jlama-native</artifactId>
+          <version>${jlama.version}</version>
+          <classifier>${os.detected.classifier}</classifier>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>${quarkus.platform.group-id}</groupId>
+            <artifactId>quarkus-maven-plugin</artifactId>
+            <configuration>
+              <jvmArgs>--enable-preview --enable-native-access=ALL-UNNAMED</jvmArgs>
+              <modules>
+                <module>jdk.incubator.vector</module>
+              </modules>
+              <systemProperties>
+                <quarkus.profile>jlama,prod</quarkus.profile>
+              </systemProperties>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>--enable-preview --enable-native-access=ALL-UNNAMED --add-modules jdk.incubator.vector</argLine>
+              <systemPropertyVariables>
+                <quarkus.profile>jlama</quarkus.profile>
+                <quarkus.test.profile>jlama,test</quarkus.test.profile>
+                <os.detected.classifier>${os.detected.classifier}</os.detected.classifier>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <argLine>--enable-preview --enable-native-access=ALL-UNNAMED --add-modules jdk.incubator.vector</argLine>
+              <systemPropertyVariables>
+                <quarkus.profile>ollama</quarkus.profile>
+                <quarkus.test.profile>ollama,test</quarkus.test.profile>
+                <quarkus.test.integration-test-profile>ollama,prod</quarkus.test.integration-test-profile>
+                <os.detected.classifier>${os.detected.classifier}</os.detected.classifier>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>

@@ -11,6 +11,7 @@ on:
         description: The base branch to check against
         required: true
         type: string
+        default: 'main'
       java_version:
         description: The Java version
         required: true

@@ -70,8 +70,26 @@ jobs:
             -Dquarkus.http.host=0.0.0.0 \
             -Dmaven.compiler.release=${{ matrix.java }}
 
-  check-commit-against-another-branch:
-    if: (github.event_name == 'pull_request') && (github.repository == 'rh-rad-ai-roadshow/parasol-insurance') && (github.base_ref == 'main') && ((github.actor == 'dependabot[bot]') || (github.event.pull_request.user.login == 'dependabot[bot]'))
+  check-commit-against-main:
+    if: (github.event_name == 'pull_request') && (github.repository == 'rh-rad-ai-roadshow/parasol-insurance') && ((github.actor == 'dependabot[bot]') || (github.event.pull_request.user.login == 'dependabot[bot]')) && (github.base_ref != 'main')
+    strategy:
+      fail-fast: false
+      matrix:
+        java:
+          - '21'
+        ai-provider:
+          - ollama
+          - jlama
+    uses: rh-rad-ai-roadshow/parasol-insurance/.github/workflows/check-pr-against-other-branch.yml@main
+    secrets: inherit
+    with:
+      java_version: ${{ matrix.java }}
+      pr_num: ${{ github.event.pull_request.number }}
+      ai_provider: ${{ matrix.ai-provider }}
+      base_branch: main
+
+  check-commit-against-other-branch:
+    if: (github.event_name == 'pull_request') && (github.repository == 'rh-rad-ai-roadshow/parasol-insurance') && ((github.actor == 'dependabot[bot]') || (github.event.pull_request.user.login == 'dependabot[bot]')) && (github.base_ref == 'main')
     strategy:
       fail-fast: false
       matrix:

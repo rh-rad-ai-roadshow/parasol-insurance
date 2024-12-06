@@ -32,7 +32,7 @@ defaults:
 jobs:
   jvm-build-test:
     if: always() && !failure() && !cancelled()
-    needs: check-commit-against-main
+    needs: check-commit-against-other-branches
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -66,8 +66,8 @@ jobs:
             -Dquarkus.http.host=0.0.0.0 \
             -Dmaven.compiler.release=${{ matrix.java }}
 
-  check-commit-against-main:
-    if: (github.event_name == 'pull_request') && (github.repository == 'rh-rad-ai-roadshow/parasol-insurance') && ((github.actor == 'dependabot[bot]') || (github.event.pull_request.user.login == 'dependabot[bot]')) && (github.base_ref != 'main')
+  check-commit-against-other-branches:
+    if: (github.event_name == 'pull_request') && (github.repository == 'rh-rad-ai-roadshow/parasol-insurance') && ((github.actor == 'dependabot[bot]') || (github.event.pull_request.user.login == 'dependabot[bot]')) && (github.base_ref == 'private-docs-rag-solution')
     strategy:
       fail-fast: false
       matrix:
@@ -76,9 +76,13 @@ jobs:
         ai-provider:
           - ollama
           - jlama
+        branch-to-check-against:
+          - main
+          - email-feature-branch
     uses: rh-rad-ai-roadshow/parasol-insurance/.github/workflows/check-pr-against-other-branch.yml@main
     secrets: inherit
     with:
       java_version: ${{ matrix.java }}
       pr_num: ${{ github.event.pull_request.number }}
       ai_provider: ${{ matrix.ai-provider }}
+      base_branch: ${{ matrix.branch-to-check-against }}

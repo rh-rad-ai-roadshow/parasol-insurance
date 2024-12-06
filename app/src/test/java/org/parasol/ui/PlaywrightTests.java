@@ -17,7 +17,7 @@ public abstract class PlaywrightTests {
 	protected BrowserContext context;
 
 	@ConfigProperty(name = "quarkus.http.test-port")
-  private int quarkusPort;
+  int quarkusPort;
 
 	protected String getUrl(String subPage) {
 		return "http://localhost:%d/%s".formatted(this.quarkusPort, subPage);

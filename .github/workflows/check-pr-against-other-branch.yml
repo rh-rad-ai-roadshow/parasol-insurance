@@ -1,0 +1,67 @@
+name: Check PR against another branch
+
+on:
+  workflow_call:
+    inputs:
+      pr_num:
+        description: The PR Number
+        required: true
+        type: string
+      base_branch:
+        description: The base branch to check against
+        required: true
+        type: string
+      java_version:
+        description: The Java version
+        required: true
+        type: string
+        default: '21'
+      ai_provider:
+        description: The AI provider to use
+        required: true
+        type: string
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  check-commit-against-another-branch:
+    runs-on: ubuntu-latest
+    name: "check-commit-against-${{ inputs.base_branch }}-branch-${{ inputs.java_version }}"
+    services:
+      ollama:
+        image: ollama/ollama
+        ports:
+          - 11434:11434
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.base_branch }}
+          path: src
+
+      - name: Get PR diff
+        run: wget ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${{ inputs.pr_num }}.diff
+
+      - name: Apply change
+        working-directory: src
+        run: git apply --stat -v --ignore-whitespace --allow-empty --apply ../${{ inputs.pr_num }}.diff
+
+      - name: Show diff
+        working-directory: src
+        run: git status && git diff
+
+      - name: Setup Java ${{ inputs.java_version }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ inputs.java_version }}
+          distribution: temurin
+          cache: maven
+
+      - name: "build-test-jvm-java${{ matrix.java }}-${{ matrix.ai-provider }}"
+        working-directory: src/app
+        run: |
+          ./mvnw -B clean verify \
+            -P${{ inputs.ai_provider }} \
+            -Dquarkus.http.host=0.0.0.0 \
+            -Dmaven.compiler.release=${{ inputs.java_version }}

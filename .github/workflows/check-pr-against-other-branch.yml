@@ -28,7 +28,7 @@ defaults:
 jobs:
   check-commit-against-another-branch:
     runs-on: ubuntu-latest
-    name: "check-commit-against-${{ inputs.base_branch }}-branch-${{ inputs.java_version }}"
+    name: "check-against-${{ inputs.base_branch }}-${{ inputs.java_version }}"
     services:
       ollama:
         image: ollama/ollama

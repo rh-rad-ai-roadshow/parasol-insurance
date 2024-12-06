@@ -36,7 +36,9 @@ concurrency:
 jobs:
   jvm-build-test:
     if: always() && !failure() && !cancelled()
-    needs: check-commit-against-another-branch
+    needs:
+      - check-commit-against-main
+      - check-commit-against-other-branch
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false

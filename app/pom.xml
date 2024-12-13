@@ -13,7 +13,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.langchain4j.version>0.23.0.CR1</quarkus.langchain4j.version>
     <quarkus.playwright.version>2.0.0</quarkus.playwright.version>
-    <quarkus.quinoa.version>2.5.0</quarkus.quinoa.version>
+    <quarkus.quinoa.version>2.5.1</quarkus.quinoa.version>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <quarkus.platform.version>3.17.4</quarkus.platform.version>

@@ -44,7 +44,6 @@ public class ClaimWebsocketChatBot {
 
     @OnTextMessage
     @WithSpan("ChatMessage")
-    @Blocking
     public Multi<ClaimBotQueryResponse> onMessage(ClaimBotQuery query) {
         Log.infof("Got chat query: %s", query);
 

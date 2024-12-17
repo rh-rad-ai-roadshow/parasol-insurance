@@ -102,6 +102,7 @@ jobs:
         ai-provider:
           - ollama
           - jlama
+          - openai
     uses: rh-rad-ai-roadshow/parasol-insurance/.github/workflows/check-pr-against-other-branch.yml@main
     secrets: inherit
     with:
@@ -119,6 +120,7 @@ jobs:
         ai-provider:
           - ollama
           - jlama
+          - openai
         branch-to-check-against:
           - email-feature-branch
           - private-docs-rag-solution

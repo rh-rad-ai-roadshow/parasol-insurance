@@ -52,6 +52,7 @@ jobs:
         ai-provider:
           - ollama
           - jlama
+          - openai
     services:
       ollama:
         image: ollama/ollama

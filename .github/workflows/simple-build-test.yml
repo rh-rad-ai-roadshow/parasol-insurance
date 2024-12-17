@@ -92,6 +92,7 @@ jobs:
         ai-provider:
           - ollama
           - jlama
+          - openai
         branch-to-check-against:
           - main
           - private-docs-rag-solution

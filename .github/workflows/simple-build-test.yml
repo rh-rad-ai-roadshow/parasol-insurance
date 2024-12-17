@@ -42,11 +42,13 @@ jobs:
         ai-provider:
           - ollama
           - jlama
+          - openai
     services:
       ollama:
         image: ollama/ollama
         ports:
           - 11434:11434
+        options: --name ollama --rm
     name: "jvm-build-test-${{ matrix.java }}-${{ matrix.ai-provider }}"
     steps:
       - uses: actions/checkout@v4
@@ -59,11 +61,25 @@ jobs:
           cache: maven
 
       - name: "build-test-jvm-java${{ matrix.java }}-${{ matrix.ai-provider }}"
+        if: matrix.ai-provider != 'openai'
         working-directory: app
         run: |
           ./mvnw -B clean verify \
             -P${{ matrix.ai-provider }} \
             -Dquarkus.http.host=0.0.0.0 \
+            -Dmaven.compiler.release=${{ matrix.java }}
+
+      - name: "build-test-jvm-java${{ matrix.java }}-${{ matrix.ai-provider }}"
+        if: matrix.ai-provider == 'openai'
+        working-directory: app
+        run: |
+          docker exec ollama bash -c "ollama pull llama3.2 && ollama pull snowflake-arctic-embed && ollama ls"
+          ./mvnw -B clean verify \
+            -Dquarkus.http.host=0.0.0.0 \
+            -Dquarkus.langchain4j.openai.base-url=http://localhost:11434/v1 \
+            -Dquarkus.langchain4j.openai.parasol-chat.base-url=http://localhost:11434/v1 \
+            -Dquarkus.langchain4j.openai.parasol-chat.chat-model.model-name=llama3.2 \
+            -Dquarkus.langchain4j.openai.embedding-model.model-name=snowflake-arctic-embed \
             -Dmaven.compiler.release=${{ matrix.java }}
 
   check-commit-against-other-branches:

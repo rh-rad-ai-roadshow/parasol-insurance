@@ -33,7 +33,7 @@ jobs:
         image: ollama/ollama
         ports:
           - 11434:11434
-      options: --name ollama --rm
+        options: --name ollama --rm
     steps:
       - uses: actions/checkout@v4
         with:

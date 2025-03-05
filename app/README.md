@@ -24,7 +24,7 @@ If you want to run the app outside dev mode, first build the app as described ab
 When building the app, run `./mvnw clean package -DskipTests -Pjlama` (or `quarkus build --clean --no-tests -Djlama`)
 
 ## Running dev mode
-When running in dev mode, Quarkus explicitly disables C2 compilation making Jlama extremely slow to the point of being unusable. This issue will be fixed in Quarkus 3.17, but for now it is strongly suggested to avoid using Jlama in dev mode.
+When running dev mode, run `./mvnw quarkus:dev -Pjlama` (or `quarkus dev -Djlama`).
 
 ## Running tests
 When running tests, run `./mvnw verify -Pjlama` (or `quarkus build --tests -Djlama`)
